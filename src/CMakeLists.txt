@@ -1,0 +1,1 @@
+add_executable(path_tracer main.cpp)
