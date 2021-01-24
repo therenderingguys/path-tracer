@@ -35,4 +35,7 @@
 .vs
 
 # Build Folder
-out/
+build/
+
+# Packages Folder
+packages/
