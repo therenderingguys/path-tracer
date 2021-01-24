@@ -37,17 +37,11 @@ endif()
 
 endfunction(decompress)
 
-download_file(https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip
-              ${CMAKE_SOURCE_DIR}/packages/glm-0.9.9.8.zip
-              MD5
-              69895110052f0d711c9c54fbf385f6f5)
-
 download_file(https://gist.github.com/farzonl/f724000a4fd841c792c82a36c0da8cba/raw/8d40f11699eb0a5b428e71632735aca0a192375f/glad.zip
              ${CMAKE_SOURCE_DIR}/packages/glad.zip 
              MD5
              7fa678ef655083fa173a5c677a199ba3)
 
-decompress(${CMAKE_SOURCE_DIR}/packages/glm-0.9.9.8.zip ${CMAKE_SOURCE_DIR}/packages/glm)
 decompress(${CMAKE_SOURCE_DIR}/packages/glad.zip ${CMAKE_SOURCE_DIR}/packages/glad)
 
 #add_subdirectory(packages/glad/)
