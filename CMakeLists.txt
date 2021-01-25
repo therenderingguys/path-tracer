@@ -29,11 +29,11 @@ if(NOT EXISTS ${path})
         )
     elseif(LINUX AND ${FILE_EXT} STREQUAL ".zip")
         get_filename_component(PATH_PARENT ${path} DIRECTORY)
-        MESSAGE(STATUS "PATH_PARENT is ${PATH_PARENT}")
         execute_process (
             COMMAND unzip -qq ${tarfile} -d ${PATH_PARENT}
+        )
+        execute_process (
             COMMAND bash -c "${CMAKE_SOURCE_DIR}/scripts/renameDir.sh ${path} ${tarfile}"
-            #COMMAND bash -c "${CMAKE_SOURCE_DIR}/scripts/moveFiles.sh ${path} ${tarfile}"
         )
     else()
         execute_process (
