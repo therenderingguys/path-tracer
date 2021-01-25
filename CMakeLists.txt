@@ -18,14 +18,22 @@ endfunction(download_file)
 
 function(decompress tarfile path)
 if(NOT EXISTS ${path})
+    get_filename_component(FILE_EXT ${tarfile} LAST_EXT)
     if(WIN32)
         execute_process (
             COMMAND cmd.exe /c mkdir ${path}
-            #COMMAND 7z x ${tarfile}  -o${path} #Note Expand-Archive can be slow can replace with 7z
             COMMAND powershell.exe -ExecutionPolicy Bypass Expand-Archive -LiteralPath ${tarfile} -DestinationPath ${path}
         )
         execute_process (
             COMMAND powershell.exe -ExecutionPolicy Bypass -Command "${CMAKE_SOURCE_DIR}/scripts/moveFiles.ps1 ${path} ${tarfile}"
+        )
+    elseif(LINUX AND ${FILE_EXT} STREQUAL ".zip")
+        get_filename_component(PATH_PARENT ${path} DIRECTORY)
+        MESSAGE(STATUS "PATH_PARENT is ${PATH_PARENT}")
+        execute_process (
+            COMMAND unzip -qq ${tarfile} -d ${PATH_PARENT}
+            COMMAND bash -c "${CMAKE_SOURCE_DIR}/scripts/renameDir.sh ${path} ${tarfile}"
+            #COMMAND bash -c "${CMAKE_SOURCE_DIR}/scripts/moveFiles.sh ${path} ${tarfile}"
         )
     else()
         execute_process (
@@ -36,11 +44,10 @@ if(NOT EXISTS ${path})
 endif()
 
 endfunction(decompress)
-
-download_file(https://gist.github.com/farzonl/f724000a4fd841c792c82a36c0da8cba/raw/8d40f11699eb0a5b428e71632735aca0a192375f/glad.zip
-             ${CMAKE_SOURCE_DIR}/packages/glad.zip 
-             MD5
-             7fa678ef655083fa173a5c677a199ba3)
+download_file(https://gist.github.com/farzonl/f724000a4fd841c792c82a36c0da8cba/raw/b6125287d4364e0982c970045691bf6d319c9868/glad.zip
+              ${CMAKE_SOURCE_DIR}/packages/glad.zip 
+              MD5
+              262e8984dbde2f359207ffa8e609aa50)
 
 decompress(${CMAKE_SOURCE_DIR}/packages/glad.zip ${CMAKE_SOURCE_DIR}/packages/glad)
 
