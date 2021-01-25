@@ -39,3 +39,6 @@ build/
 
 # Packages Folder
 packages/
+
+# MacOS
+.DS_Store
