@@ -1,13 +1,9 @@
-project(path_tracer)
+project(PathTracer)
 cmake_minimum_required(VERSION 3.10)
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -std=c++11  " )
 
 set(SOURCE_FILES
                  # add files here
                  main.cpp)
-
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 #Look up OpenGL
 find_package(OpenGL REQUIRED)
@@ -54,7 +50,20 @@ if (APPLE)
     set(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY})
 endif (APPLE)
 
+add_library (${PROJECT_NAME} STATIC
+  PathTracerStatic.cpp
+  $<TARGET_OBJECTS:PathTracer.RayCast>
+)
+
 set(GL_LIBS OpenGL::GL glfw ${EXTRA_LIBS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${GL_LIBS} glad)
 
-add_subdirectory (test)
+
+target_include_directories(${PROJECT_NAME}
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+  # Add include_directories here
+  raycast
+)
+
+add_subdirectory (raycast)
+add_subdirectory (main)
