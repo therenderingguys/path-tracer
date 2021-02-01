@@ -2,4 +2,6 @@
 
 #include <catch2/catch.hpp>
 
-TEST_CASE("Build Test") { REQUIRE(true); }
+TEST_CASE( "Build Test" ) {
+    REQUIRE( true );
+}

@@ -1,4 +1,4 @@
-project(PathTracer)
+project(path_tracer)
 cmake_minimum_required(VERSION 3.10)
 if(UNIX AND NOT APPLE)
     set(LINUX TRUE)
@@ -51,7 +51,5 @@ download_file(https://gist.github.com/farzonl/f724000a4fd841c792c82a36c0da8cba/r
 
 decompress(${CMAKE_SOURCE_DIR}/packages/glad.zip ${CMAKE_SOURCE_DIR}/packages/glad)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -std=c++11" )
-
+#add_subdirectory(packages/glad/)
 add_subdirectory(src)
-add_subdirectory (test)
