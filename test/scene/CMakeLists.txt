@@ -1,5 +1,5 @@
 add_library (PathTracer.SceneTest OBJECT
-    triangle.cpp
+    triangleTest.cpp
     )
 
 include_directories(${CMAKE_SOURCE_DIR}/src/scene)

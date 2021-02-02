@@ -9,9 +9,11 @@ download_file(https://github.com/catchorg/Catch2/releases/download/v2.13.0/catch
 include_directories(${CMAKE_SOURCE_DIR}/packages/ ${CMAKE_SOURCE_DIR}/packages/glm)
 add_executable(${PROJECT_NAME} 
                $<TARGET_OBJECTS:PathTracer.RayCastTest>
+               $<TARGET_OBJECTS:PathTracer.SceneTest>
                test.cpp
 )
 target_link_libraries (${PROJECT_NAME}
   PathTracer
 )
 add_subdirectory (raycast)
+add_subdirectory (scene)
