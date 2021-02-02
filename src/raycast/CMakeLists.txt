@@ -1,6 +1,7 @@
 add_library (PathTracer.RayCast OBJECT
     ray.cpp
     camera.cpp
+    hit.cpp
     )
 
 target_include_directories (

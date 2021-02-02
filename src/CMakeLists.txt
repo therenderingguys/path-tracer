@@ -53,6 +53,7 @@ endif (APPLE)
 add_library (${PROJECT_NAME} STATIC
   PathTracerStatic.cpp
   $<TARGET_OBJECTS:PathTracer.RayCast>
+  $<TARGET_OBJECTS:PathTracer.Scene>
 )
 
 set(GL_LIBS OpenGL::GL glfw ${EXTRA_LIBS})
@@ -63,7 +64,9 @@ target_include_directories(${PROJECT_NAME}
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
   # Add include_directories here
   raycast
+  scene
 )
 
 add_subdirectory (raycast)
+add_subdirectory (scene)
 add_subdirectory (main)
