@@ -1,15 +1,14 @@
 project(PathTracer)
 cmake_minimum_required(VERSION 3.10)
 
-set(SOURCE_FILES
-                 # add files here
-                 main.cpp)
-
 #Look up OpenGL
 find_package(OpenGL REQUIRED)
 
 #Link GLAD
 add_subdirectory(${CMAKE_SOURCE_DIR}/packages/glad/ ${CMAKE_CURRENT_BINARY_DIR}/glad)
+
+# PathTracer Src dir
+set(PATH_TRACER_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Look up glfw
 find_package(glfw3 3.3)

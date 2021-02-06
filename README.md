@@ -15,7 +15,7 @@ ninja -C./build
 - Using MSBUILD
 ```powershell
 cmake -B build
-msbuild build\Disassembler.sln -t:Build -p:Configuration=Release
+msbuild build\PathTracer.sln -t:Build -p:Configuration=Release
 ```
 ## Docker Build & Run
 - build: `docker build -t path_tracer:latest .`

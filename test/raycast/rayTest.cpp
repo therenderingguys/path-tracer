@@ -1,7 +1,7 @@
 #include <catch2/catch.hpp>
 #include <glm/glm.hpp>
 
-#include "ray.h"
+#include "raycast/ray.h"
 
 TEST_CASE("Ray Test") {
   auto origin = glm::vec3(0.0f);

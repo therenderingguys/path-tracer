@@ -1,7 +1,7 @@
 #include <catch2/catch.hpp>
 #include <glm/glm.hpp>
 
-#include "camera.h"
+#include "raycast/camera.h"
 
 TEST_CASE("Camera Test") {
   auto origin = glm::vec3(0.0f);

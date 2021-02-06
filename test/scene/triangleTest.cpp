@@ -1,7 +1,7 @@
 #include <catch2/catch.hpp>
 #include <glm/glm.hpp>
 
-#include "triangle.h"
+#include "scene/triangle.h"
 
 TEST_CASE("Triangle Test") {
   auto p0 = glm::vec3(0, 0, 0);
