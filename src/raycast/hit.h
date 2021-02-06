@@ -1,6 +1,6 @@
 
-#ifndef __TRIANGLE_H__
-#define __TRIANGLE_H__
+#ifndef __HIT_H__
+#define __HIT_H__
 
 #include <glm/glm.hpp>
 
@@ -19,4 +19,4 @@ public:
   void setColor(glm::vec3 c) { this->mColor = c; }
 };
 
-#endif // __TRIANGLE_H__
+#endif // __HIT_H__

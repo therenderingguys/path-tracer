@@ -14,8 +14,8 @@ COPY . .
 
 RUN cmake -B build && make -C build
 
-RUN ./build/src/test/path_tracer_TEST
+RUN ./build/test/PathTracer_TEST
 
 #RUN echo "export DISPLAY=localhost:0.0" >> ~/.bashrc
 
-ENTRYPOINT ["./build/src/path_tracer"]
+ENTRYPOINT ["./build/src/main/PathTracer_exe"]
