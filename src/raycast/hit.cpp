@@ -1,6 +1,3 @@
 #include "hit.h"
 
-Hit::Hit() 
-	: mIsHit(false)
-{
-}
+Hit::Hit() : mIsHit(false) {}
