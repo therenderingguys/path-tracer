@@ -7,7 +7,7 @@ Triangle::Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2)
 
 // Möller–Trumbore intersection algorithm
 // https://w.wiki/y6d
-Hit Triangle::getRayIntersection(const Ray &ray) {
+Hit Triangle::getRayIntersection(const Ray &ray) const {
 
   // Hit is initalized to false
   Hit hit;

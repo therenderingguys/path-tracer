@@ -2,9 +2,10 @@
 #ifndef __TRIANGLE_H__
 #define __TRIANGLE_H__
 
+#include <glm/glm.hpp>
+
 #include "raycast/hit.h"
 #include "raycast/ray.h"
-#include <glm/glm.hpp>
 
 class Triangle {
   glm::vec3 mP0, mP1, mP2;
@@ -24,7 +25,7 @@ public:
   const glm::vec3 &color() const { return mColor; }
 
   void setColor(glm::vec3 c) { mColor = c; }
-  Hit getRayIntersection(const Ray &ray);
+  Hit getRayIntersection(const Ray &ray) const;
 };
 
 #endif // __TRIANGLE_H__
