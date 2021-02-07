@@ -14,6 +14,7 @@ public:
 
   const glm::vec3 &position() const { return mPosition; }
   void setPosition(glm::vec3 p) { this->mPosition = p; }
+  bool& isHit() { return mIsHit;}
 
   const glm::vec3 &color() const { return mColor; }
   void setColor(glm::vec3 c) { this->mColor = c; }
