@@ -52,6 +52,8 @@ Hit Triangle::getRayIntersection(const Ray &ray) {
     hit.isHit() = true;
     hit.setPosition(ray.point_at_dt(t));
     hit.setColor(this->mColor);
+    hit.setTime(t);
   }
+
   return hit;
 }

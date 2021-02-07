@@ -8,6 +8,7 @@ class Hit {
   bool mIsHit;
   glm::vec3 mPosition;
   glm::vec3 mColor;
+  float mTime;
 
 public:
   Hit();
@@ -18,6 +19,8 @@ public:
 
   const glm::vec3 &color() const { return mColor; }
   void setColor(glm::vec3 c) { this->mColor = c; }
+  void setTime(float t) { this->mTime = t; }
+  float getTime() { return mTime; }
 };
 
 #endif // __HIT_H__

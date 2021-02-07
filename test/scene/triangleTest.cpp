@@ -1,5 +1,7 @@
 #include <catch2/catch.hpp>
 #include <glm/glm.hpp>
+#include <limits>
+#include <cstring>
 
 #include "scene/triangle.h"
 
@@ -41,6 +43,7 @@ void testPnts(glm::vec3 (&pnts)[3], Triangle &tri, bool ExpectHit) {
   // make the z-axis direction positive.
   glm::vec3 direction(0, 0, 1);
   glm::vec3 expectedHit[3] = {};
+  float inf = std::numeric_limits<float>::infinity();
   memcpy(expectedHit, pnts, sizeof(expectedHit));
   for (int i = 0; i < 3; i++) {
     pnts[i].z = -1;
@@ -52,6 +55,7 @@ void testPnts(glm::vec3 (&pnts)[3], Triangle &tri, bool ExpectHit) {
       REQUIRE(hit.color() == tri.color());
     } else {
       REQUIRE(hit.isHit() == false);
+      REQUIRE(hit.getTime() == inf);
     }
   }
 }
