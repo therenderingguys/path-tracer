@@ -1,6 +1,6 @@
 #include "camera.h"
 
-Camera::Camera(glm::vec3 o, glm::vec3 d) : mOrigin(o) {
+Camera::Camera(glm::vec3 &o, glm::vec3 &d) : mOrigin(o) {
   this->mDirection = glm::normalize(d);
 }
 
