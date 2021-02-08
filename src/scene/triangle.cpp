@@ -1,7 +1,7 @@
 #include "triangle.h"
 
-Triangle::Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2)
-    : mP0(p0), mP1(p1), mP2(p2) {
+Triangle::Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, unsigned int id)
+    : mP0(p0), mP1(p1), mP2(p2), mId(id) {
   this->mNormal = glm::normalize(glm::cross(mP1 - mP0, mP2 - mP0));
 }
 
@@ -53,6 +53,7 @@ Hit Triangle::getRayIntersection(const Ray &ray) const {
     hit.setPosition(ray.point_at_dt(t));
     hit.setColor(this->mColor);
     hit.setTime(t);
+    hit.setTriId(mId);
   }
 
   return hit;

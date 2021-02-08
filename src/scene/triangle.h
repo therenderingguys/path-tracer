@@ -12,10 +12,12 @@ class Triangle {
   glm::vec3 mNormal;
   glm::vec3 mColor;
 
-public:
-  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2);
+  const unsigned int mId;
 
-  static constexpr float EPSILON = 0.0000001;
+public:
+  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, unsigned int id);
+
+  static constexpr float EPSILON = 0.0000001f;
 
   const glm::vec3 &p0() const { return mP0; }
   const glm::vec3 &p1() const { return mP1; }
@@ -23,6 +25,8 @@ public:
 
   const glm::vec3 &normal() const { return mNormal; }
   const glm::vec3 &color() const { return mColor; }
+
+  const unsigned int getId() const { return mId; }
 
   void setColor(glm::vec3 c) { mColor = c; }
   Hit getRayIntersection(const Ray &ray) const;

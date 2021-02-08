@@ -6,12 +6,16 @@
 
 #include "triangle.h"
 
-class Scene 
+class Scene
 {
+  unsigned int mTriangleCount;
 	std::vector<Triangle> mTriangleList;
 
 public:
-  void addTriangle(glm::vec3 &p0, glm::vec3 &p1, glm::vec3 &p2, glm::vec3 &color);
+  Scene() : mTriangleCount(0) {}
+
+  const std::vector<Triangle> &getTriangleList() const { return mTriangleList; }
+  void addTriangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color);
   Hit getRayIntersection(const Ray &ray);
 };
 

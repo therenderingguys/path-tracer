@@ -9,6 +9,7 @@ class Hit {
   glm::vec3 mPosition;
   glm::vec3 mColor;
   float mTime;
+  unsigned int mTriId;
 
 public:
   Hit();
@@ -21,6 +22,8 @@ public:
   void setColor(glm::vec3 c) { this->mColor = c; }
   void setTime(float t) { this->mTime = t; }
   float getTime() { return mTime; }
+  void setTriId(unsigned int id) { this->mTriId = id; }
+  unsigned int getTriId() const { return mTriId; }
 };
 
 #endif // __HIT_H__
