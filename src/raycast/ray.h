@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 class Ray {
+private:
   glm::vec3 mOrigin, mDirection;
 
 public:

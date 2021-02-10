@@ -1,5 +1,6 @@
 add_library (PathTracer.Scene OBJECT
     triangle.cpp
+    scene.cpp
     )
 
 include_directories(${PATH_TRACER_SOURCE_DIR})

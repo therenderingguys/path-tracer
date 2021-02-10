@@ -1,13 +1,22 @@
 #include "triangle.h"
 
+Triangle::Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color,
+                   int id)
+    : mP0(p0), mP1(p1), mP2(p2), mColor(color), mId(id) {
+  this->mNormal = glm::normalize(glm::cross(mP1 - mP0, mP2 - mP0));
+}
+
 Triangle::Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2)
-    : mP0(p0), mP1(p1), mP2(p2) {
+    : Triangle(p0, p1, p2, glm::vec3(0.78, 0.15, 0.7)) {}
+
+Triangle::Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color)
+    : mP0(p0), mP1(p1), mP2(p2), mColor(color), mId(-1) {
   this->mNormal = glm::normalize(glm::cross(mP1 - mP0, mP2 - mP0));
 }
 
 // Möller–Trumbore intersection algorithm
 // https://w.wiki/y6d
-Hit Triangle::getRayIntersection(const Ray &ray) {
+Hit Triangle::getRayIntersection(const Ray &ray) const {
 
   // Hit is initalized to false
   Hit hit;
@@ -53,6 +62,7 @@ Hit Triangle::getRayIntersection(const Ray &ray) {
     hit.setPosition(ray.point_at_dt(t));
     hit.setColor(this->mColor);
     hit.setTime(t);
+    hit.setTriId(mId);
   }
 
   return hit;

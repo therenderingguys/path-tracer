@@ -53,5 +53,5 @@ decompress(${CMAKE_SOURCE_DIR}/packages/glad.zip ${CMAKE_SOURCE_DIR}/packages/gl
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -std=c++11" )
 
-add_subdirectory(src)
+add_subdirectory (src)
 add_subdirectory (test)
