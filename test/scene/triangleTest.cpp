@@ -11,7 +11,7 @@ TEST_CASE("Triangle Test", "[triangle]") {
   auto p0 = glm::vec3(0, 0, 0);
   auto p1 = glm::vec3(1, 0, 0);
   auto p2 = glm::vec3(0, 1, 0);
-  Triangle tri(p0, p1, p2, 0);
+  Triangle tri(p0, p1, p2);
 
   auto normal = glm::vec3(0, 0, 1);
   REQUIRE(normal == tri.normal());
@@ -22,7 +22,7 @@ TEST_CASE("Intersection Hit Test", "[triangle]") {
   glm::vec3 v1(0, 0, 0);
   glm::vec3 v2(.5, .5, 0);
   glm::vec3 blue(0, 0, 1);
-  Triangle tri(v0, v1, v2, 0);
+  Triangle tri(v0, v1, v2);
   tri.setColor(blue);
 
   // set the ray origin to the triangle centroid offset on the z-axis
@@ -65,7 +65,7 @@ TEST_CASE("Intersection Edge case Hit Test", "[triangle]") {
   glm::vec3 v1(0, 0, 0);
   glm::vec3 v2(.5, .5, 0);
   glm::vec3 blue(0, 0, 1);
-  Triangle tri(v0, v1, v2, 0);
+  Triangle tri(v0, v1, v2);
   tri.setColor(blue);
   glm::vec3 pnts[3] = {glm::vec3(v0), glm::vec3(v1), glm::vec3(v2)};
   // test that the points of the triangle hit
@@ -92,7 +92,7 @@ TEST_CASE("Intersection Miss Test", "[triangle]") {
   glm::vec3 v1(0, 0, 0);
   glm::vec3 v2(.5, .5, 0);
   glm::vec3 blue(0, 0, 1);
-  Triangle tri(v0, v1, v2, 0);
+  Triangle tri(v0, v1, v2);
   tri.setColor(blue);
 
   glm::vec3 m1((v0.x + v1.x) / 2.0, (v0.y + v1.y) / 2.0, 0);

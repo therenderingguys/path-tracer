@@ -13,12 +13,14 @@ private:
   glm::vec3 mNormal;
   glm::vec3 mColor;
 
-  const unsigned int mId;
+  const int mId;
+
+private:
+  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color, int id);
 
 public:
-  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, unsigned int id);
-  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color,
-           unsigned int id);
+  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2);
+  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color);
 
   static constexpr float EPSILON = 0.0000001f;
 
@@ -33,6 +35,8 @@ public:
 
   void setColor(glm::vec3 c) { mColor = c; }
   Hit getRayIntersection(const Ray &ray) const;
+
+  friend class Scene;
 };
 
 #endif // __TRIANGLE_H__
