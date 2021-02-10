@@ -1,7 +1,7 @@
 #include "triangle.h"
 
-Triangle::Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, unsigned int id)
-    : mP0(p0), mP1(p1), mP2(p2), mId(id) {
+Triangle::Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color, unsigned int id)
+    : mP0(p0), mP1(p1), mP2(p2), mColor(color), mId(id) {
   this->mNormal = glm::normalize(glm::cross(mP1 - mP0, mP2 - mP0));
 }
 

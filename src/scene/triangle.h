@@ -15,7 +15,7 @@ class Triangle {
   const unsigned int mId;
 
 public:
-  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, unsigned int id);
+  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color, unsigned int id);
 
   static constexpr float EPSILON = 0.0000001f;
 
