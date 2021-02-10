@@ -1,7 +1,7 @@
 #include <catch2/catch.hpp>
+#include <cstring>
 #include <glm/glm.hpp>
 #include <limits>
-#include <cstring>
 
 #include "scene/triangle.h"
 

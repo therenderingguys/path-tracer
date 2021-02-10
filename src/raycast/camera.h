@@ -5,6 +5,7 @@
 #include "ray.h"
 
 class Camera {
+private:
   glm::vec3 mOrigin, mDirection;
 
 public:

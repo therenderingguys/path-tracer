@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 class Hit {
+private:
   bool mIsHit;
   glm::vec3 mPosition;
   glm::vec3 mColor;

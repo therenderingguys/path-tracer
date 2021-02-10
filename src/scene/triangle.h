@@ -8,6 +8,7 @@
 #include "raycast/ray.h"
 
 class Triangle {
+private:
   glm::vec3 mP0, mP1, mP2;
   glm::vec3 mNormal;
   glm::vec3 mColor;
@@ -15,7 +16,9 @@ class Triangle {
   const unsigned int mId;
 
 public:
-  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color, unsigned int id);
+  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, unsigned int id);
+  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color,
+           unsigned int id);
 
   static constexpr float EPSILON = 0.0000001f;
 
