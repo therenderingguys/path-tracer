@@ -19,16 +19,15 @@ endfunction(download_file)
 function(decompress tarfile path)
 if(NOT EXISTS ${path})
     get_filename_component(FILE_EXT ${tarfile} LAST_EXT)
+    get_filename_component(PATH_PARENT ${path} DIRECTORY)
     if(WIN32)
         execute_process (
-            COMMAND cmd.exe /c mkdir ${path}
-            COMMAND powershell.exe -ExecutionPolicy Bypass Expand-Archive -LiteralPath ${tarfile} -DestinationPath ${path}
+            COMMAND powershell.exe -ExecutionPolicy Bypass Expand-Archive -LiteralPath ${tarfile} -DestinationPath ${PATH_PARENT}
         )
         execute_process (
-            COMMAND powershell.exe -ExecutionPolicy Bypass -Command "${CMAKE_SOURCE_DIR}/scripts/moveFiles.ps1 ${path} ${tarfile}"
+            COMMAND powershell.exe -ExecutionPolicy Bypass -Command "${CMAKE_SOURCE_DIR}/scripts/renameDir.ps1 ${path} ${tarfile}"
         )
     elseif(LINUX AND ${FILE_EXT} STREQUAL ".zip")
-        get_filename_component(PATH_PARENT ${path} DIRECTORY)
         execute_process (
             COMMAND unzip -qq ${tarfile} -d ${PATH_PARENT}
         )
@@ -51,7 +50,13 @@ download_file(https://gist.github.com/farzonl/f724000a4fd841c792c82a36c0da8cba/r
 
 decompress(${CMAKE_SOURCE_DIR}/packages/glad.zip ${CMAKE_SOURCE_DIR}/packages/glad)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -std=c++11" )
 
+
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -std=c++14")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
+endif()
+ 
 add_subdirectory (src)
 add_subdirectory (test)
