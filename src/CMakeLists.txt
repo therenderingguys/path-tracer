@@ -12,9 +12,9 @@ set(PATH_TRACER_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Look up glfw
 find_package(glfw3 3.3)
-IF (${glfw3_FOUND})
+if(${glfw3_FOUND})
    MESSAGE(STATUS "Found GLFW3.")
-ELSE (${glfw3_FOUND})
+else(${glfw3_FOUND})
     MESSAGE(STATUS "Could not locate GLFW3, downloading.")
     download_file(https://github.com/glfw/glfw/releases/download/3.3.2/glfw-3.3.2.zip
                  ${CMAKE_SOURCE_DIR}/packages/glfw-3.3.2.zip
@@ -22,13 +22,13 @@ ELSE (${glfw3_FOUND})
                  f794d9ad899a64894782884be79d644b)
     decompress(${CMAKE_SOURCE_DIR}/packages/glfw-3.3.2.zip ${CMAKE_SOURCE_DIR}/packages/glfw)
     add_subdirectory(${CMAKE_SOURCE_DIR}/packages/glfw/ ${CMAKE_CURRENT_BINARY_DIR}/glfw)
-ENDIF (${glfw3_FOUND})
+endif(${glfw3_FOUND})
 
 # Look up GLM
 find_package(GLM)
-IF (${GLM_FOUND})
+if(${GLM_FOUND})
     MESSAGE(STATUS "Found GLM.")
-ELSE (${GLM_FOUND})
+else(${GLM_FOUND})
     MESSAGE(STATUS "Could not locate GLM, downloading.")
     download_file(https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip
               ${CMAKE_SOURCE_DIR}/packages/glm-0.9.9.8.zip
@@ -36,18 +36,22 @@ ELSE (${GLM_FOUND})
               69895110052f0d711c9c54fbf385f6f5)
     decompress(${CMAKE_SOURCE_DIR}/packages/glm-0.9.9.8.zip ${CMAKE_SOURCE_DIR}/packages/glm)
     include_directories(${CMAKE_SOURCE_DIR}/packages/glm)
-ENDIF (${GLM_FOUND})
+endif(${GLM_FOUND})
 
 if (APPLE)
-    message(STATUS "APPLE Platform detected")
-    include_directories(/System/Library/Frameworks)
-    include_directories(/usr/local/include)
-    find_library(COCOA_LIBRARY Cocoa REQUIRED)
-    find_library(OpenGL_LIBRARY OpenGL)
-    find_library(IOKIT_LIBRARY IOKit REQUIRED)
-    find_library(COREVIDEO_LIBRARY CoreVideo REQUIRED)
-    set(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY})
+  message(STATUS "APPLE Platform detected")
+  include_directories(/System/Library/Frameworks)
+  include_directories(/usr/local/include)
+  find_library(COCOA_LIBRARY Cocoa REQUIRED)
+  find_library(OpenGL_LIBRARY OpenGL)
+  find_library(IOKIT_LIBRARY IOKit REQUIRED)
+  find_library(COREVIDEO_LIBRARY CoreVideo REQUIRED)
+  set(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY})
 endif (APPLE)
+
+if(LINUX)
+  set(EXTRA_LIBS ${CMAKE_DL_LIBS})
+endif(LINUX)
 
 add_library (${PROJECT_NAME} STATIC
   PathTracerStatic.cpp
@@ -55,8 +59,8 @@ add_library (${PROJECT_NAME} STATIC
   $<TARGET_OBJECTS:PathTracer.Scene>
 )
 
-set(GL_LIBS OpenGL::GL glfw ${EXTRA_LIBS})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${GL_LIBS} glad)
+set(GL_LIBS OpenGL::GL glfw glad ${EXTRA_LIBS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${GL_LIBS})
 
 
 target_include_directories(${PROJECT_NAME}
