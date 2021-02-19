@@ -6,12 +6,22 @@ download_file(https://github.com/catchorg/Catch2/releases/download/v2.13.0/catch
               MD5
               209cbb2f8f37224cc5f7261cf9388bc2)
 
-include_directories(${CMAKE_SOURCE_DIR}/packages/ ${CMAKE_SOURCE_DIR}/packages/glm)
+include_directories(${CMAKE_SOURCE_DIR}/packages/)
+
+if (APPLE)
+  include_directories(/usr/local/include)
+endif()
+
+if(NOT ${GLM_FOUND})
+  include_directories(${CMAKE_SOURCE_DIR}/packages/glm)
+endif()
+
 add_executable(${PROJECT_NAME} 
                $<TARGET_OBJECTS:PathTracer.RayCastTest>
                $<TARGET_OBJECTS:PathTracer.SceneTest>
                test.cpp
 )
+
 target_link_libraries (${PROJECT_NAME}
   PathTracer
 )
