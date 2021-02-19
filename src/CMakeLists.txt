@@ -10,11 +10,9 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/packages/glad/ ${CMAKE_CURRENT_BINARY_DIR}/
 # PathTracer Src dir
 set(PATH_TRACER_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Look up glfw
-find_package(glfw3 3.3)
 if(${glfw3_FOUND})
    MESSAGE(STATUS "Found GLFW3.")
-else(${glfw3_FOUND})
+else()
     MESSAGE(STATUS "Could not locate GLFW3, downloading.")
     download_file(https://github.com/glfw/glfw/releases/download/3.3.2/glfw-3.3.2.zip
                  ${CMAKE_SOURCE_DIR}/packages/glfw-3.3.2.zip
@@ -22,13 +20,12 @@ else(${glfw3_FOUND})
                  f794d9ad899a64894782884be79d644b)
     decompress(${CMAKE_SOURCE_DIR}/packages/glfw-3.3.2.zip ${CMAKE_SOURCE_DIR}/packages/glfw)
     add_subdirectory(${CMAKE_SOURCE_DIR}/packages/glfw/ ${CMAKE_CURRENT_BINARY_DIR}/glfw)
-endif(${glfw3_FOUND})
+endif()
 
-# Look up GLM
-find_package(GLM)
+
 if(${GLM_FOUND})
     MESSAGE(STATUS "Found GLM.")
-else(${GLM_FOUND})
+else()
     MESSAGE(STATUS "Could not locate GLM, downloading.")
     download_file(https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip
               ${CMAKE_SOURCE_DIR}/packages/glm-0.9.9.8.zip
@@ -36,9 +33,9 @@ else(${GLM_FOUND})
               69895110052f0d711c9c54fbf385f6f5)
     decompress(${CMAKE_SOURCE_DIR}/packages/glm-0.9.9.8.zip ${CMAKE_SOURCE_DIR}/packages/glm)
     include_directories(${CMAKE_SOURCE_DIR}/packages/glm)
-endif(${GLM_FOUND})
+endif()
 
-if (APPLE)
+if(APPLE)
   message(STATUS "APPLE Platform detected")
   include_directories(/System/Library/Frameworks)
   include_directories(/usr/local/include)
@@ -47,11 +44,11 @@ if (APPLE)
   find_library(IOKIT_LIBRARY IOKit REQUIRED)
   find_library(COREVIDEO_LIBRARY CoreVideo REQUIRED)
   set(EXTRA_LIBS ${COCOA_LIBRARY} ${OpenGL_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY})
-endif (APPLE)
+endif()
 
 if(LINUX)
   set(EXTRA_LIBS ${CMAKE_DL_LIBS})
-endif(LINUX)
+endif()
 
 add_library (${PROJECT_NAME} STATIC
   PathTracerStatic.cpp

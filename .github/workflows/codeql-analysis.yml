@@ -81,10 +81,10 @@ jobs:
         sudo apt-get purge -qq fglrx || true
         sudo apt-get install -qq libglfw3-dev libglm-dev
       if: matrix.os == 'ubuntu-20.04'
-    #- name: Install Mac dependencies
-    #  run: |
-    #    brew install glfw glm
-    #  if: matrix.os == 'macos-10.15'
+    - name: Install Mac dependencies
+      run: |
+        brew install glfw glm
+      if: matrix.os == 'macos-10.15'
     #- name: Install Windows dependencies
     #  run: |
     #    choco install glfw3
