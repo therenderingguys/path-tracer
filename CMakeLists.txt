@@ -35,14 +35,13 @@ if(NOT EXISTS ${path})
             COMMAND bash -c "${CMAKE_SOURCE_DIR}/scripts/renameDir.sh ${path} ${tarfile}"
         )
     else()
-        execute_process (
-            COMMAND mkdir ${path}
-            COMMAND tar -xzvf ${tarfile} -C ${path} --strip-components 1
-        )
+        execute_process ( COMMAND mkdir -p ${path})
+        execute_process (COMMAND tar -xzvf ${tarfile} -C ${path} --strip-components 1)
     endif()
 endif()
 
 endfunction(decompress)
+
 download_file(https://gist.github.com/farzonl/f724000a4fd841c792c82a36c0da8cba/raw/b6125287d4364e0982c970045691bf6d319c9868/glad.zip
               ${CMAKE_SOURCE_DIR}/packages/glad.zip 
               MD5
@@ -58,5 +57,8 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
 endif()
  
+find_package(GLM) # Look up GLM
+find_package(glfw3 3.3) # Look up glfw
+
 add_subdirectory (src)
 add_subdirectory (test)
