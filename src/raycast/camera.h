@@ -16,7 +16,7 @@ private:
 
 public:
   Camera();
-  Camera(glm::vec3 &o, glm::vec3 &d, float fov);
+  Camera(glm::vec3 &o, glm::vec3 &d, float fov = glm::radians(45.0f));
   
   const glm::vec3 &direction() const { return mDirection; }
   void setDirection(glm::vec3 &dir) { this->mDirection = dir; }
