@@ -2,14 +2,11 @@
 #ifndef __RENDERER_H__
 #define __RENDERER_H__
 
-#define _USE_MATH_DEFINES
-
 #include <glm/glm.hpp>
 #include <math.h>
 
-#include "scene/scene.h"
 #include "raycast/ray.h"
-
+#include "scene/scene.h"
 
 class Renderer {
 private:
@@ -17,7 +14,8 @@ private:
   const float mAspectRatio;
 
 private:
-  glm::vec3 colorPixel(const unsigned int i, const unsigned int j, Scene &scene);
+  glm::vec3 colorPixel(const unsigned int i, const unsigned int j,
+                       Scene &scene);
   glm::vec3 colorRay(const Ray &ray, Scene &scene);
 
 public:
