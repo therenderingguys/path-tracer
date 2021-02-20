@@ -6,7 +6,7 @@
 TEST_CASE("Camera Test", "[camera]") {
   auto origin = glm::vec3(0.0f);
   auto direction = glm::vec3(0.0f, 2.0f, 0.0f);
-  Camera camera(origin, direction, 45.0f);
+  Camera camera(origin, direction);
 
   // check direction is normalized
   auto vec3Param = camera.direction();
