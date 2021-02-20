@@ -62,7 +62,8 @@ glm::vec3 Renderer::colorRay(const Ray &ray, Scene &scene) {
 }
 
 Renderer::Renderer(unsigned int width, unsigned int height)
-    : mWidth(width), mHeight(height), mAspectRatio((float)width / height) {}
+    : mWidth(width), mHeight(height),
+      mAspectRatio(static_cast<float>(width) / static_cast<float>(width)) {}
 
 void Renderer::renderScene(unsigned int width, unsigned int height,
                            Scene &scene) {
