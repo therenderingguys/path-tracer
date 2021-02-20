@@ -1,6 +1,6 @@
 #include "scene.h"
 
-Scene::Scene(Camera& cam) : mCamera(cam) {}
+Scene::Scene(Camera &cam) : mCamera(cam) {}
 
 void Scene::setCamera(glm::vec3 &pos, glm::vec3 &dir) {
   this->mCamera.setOrigin(pos);

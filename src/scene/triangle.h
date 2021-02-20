@@ -15,7 +15,8 @@ private:
   const size_t mId;
 
 private:
-  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color, size_t id);
+  Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color,
+           size_t id);
 
 public:
   Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2);

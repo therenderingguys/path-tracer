@@ -29,7 +29,6 @@ public:
 
   const glm::vec3 &getUp() const { return mUp; }
   const glm::vec3 &getRight() const { return mRight; }
-  
 };
 
 #endif // __CAMERA_H__
