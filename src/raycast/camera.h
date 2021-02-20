@@ -17,7 +17,7 @@ private:
 public:
   Camera();
   Camera(glm::vec3 &o, glm::vec3 &d, float fov);
-  
+
   const glm::vec3 &direction() const { return mDirection; }
   void setDirection(glm::vec3 &dir) { this->mDirection = dir; }
 
@@ -29,7 +29,6 @@ public:
 
   const glm::vec3 &getUp() const { return mUp; }
   const glm::vec3 &getRight() const { return mRight; }
-  
 };
 
 #endif // __CAMERA_H__
