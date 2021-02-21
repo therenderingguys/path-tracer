@@ -6,6 +6,7 @@ find_package(OpenGL REQUIRED)
 
 #Link GLAD
 add_subdirectory(${CMAKE_SOURCE_DIR}/packages/glad/ ${CMAKE_CURRENT_BINARY_DIR}/glad)
+include_directories(${CMAKE_SOURCE_DIR}/packages/glad/include)
 
 # PathTracer Src dir
 set(PATH_TRACER_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
@@ -20,8 +21,8 @@ else()
                  f794d9ad899a64894782884be79d644b)
     decompress(${CMAKE_SOURCE_DIR}/packages/glfw-3.3.2.zip ${CMAKE_SOURCE_DIR}/packages/glfw)
     add_subdirectory(${CMAKE_SOURCE_DIR}/packages/glfw/ ${CMAKE_CURRENT_BINARY_DIR}/glfw)
+    include_directories(${CMAKE_SOURCE_DIR}/packages/glfw/include)
 endif()
-
 
 if(${GLM_FOUND})
     MESSAGE(STATUS "Found GLM.")
@@ -55,11 +56,11 @@ add_library (${PROJECT_NAME} STATIC
   $<TARGET_OBJECTS:PathTracer.RayCast>
   $<TARGET_OBJECTS:PathTracer.Renderer>
   $<TARGET_OBJECTS:PathTracer.Scene>
+  $<TARGET_OBJECTS:PathTracer.Window>
 )
 
 set(GL_LIBS OpenGL::GL glfw glad ${EXTRA_LIBS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${GL_LIBS})
-
 
 target_include_directories(${PROJECT_NAME}
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
@@ -67,9 +68,11 @@ target_include_directories(${PROJECT_NAME}
   raycast
   renderer
   scene
+  window
 )
 
-add_subdirectory (raycast)
+add_subdirectory(main)
+add_subdirectory(raycast)
 add_subdirectory (renderer)
-add_subdirectory (scene)
-add_subdirectory (main)
+add_subdirectory(scene)
+add_subdirectory(window)
