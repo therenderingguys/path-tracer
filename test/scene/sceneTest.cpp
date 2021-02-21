@@ -2,7 +2,8 @@
 #include <catch2/catch.hpp>
 
 TEST_CASE("Scene Add Triangle Test", "[scene][triangle]") {
-  Scene scene;
+  Camera cam;
+  Scene scene(cam);
 
   scene.addTriangle({-0.5, -0.5, 0}, {0.5, -0.5, 0}, {0, 0.5, 0}, {1, 1, 1});
   scene.addTriangle({-0.5, -0.5, 0}, {0.5, -0.5, 0}, {0, 0.5, 0}, {1, 1, 1});
@@ -12,7 +13,8 @@ TEST_CASE("Scene Add Triangle Test", "[scene][triangle]") {
 }
 
 TEST_CASE("Ray Intersect Scene Triangles Test", "[scene][triangle]") {
-  Scene scene;
+  Camera cam;
+  Scene scene(cam);
 
   // id = 0
   scene.addTriangle({-0.5, -0.5, 0}, {0.5, -0.5, 0}, {0, 0.5, 0}, {1, 1, 1});
