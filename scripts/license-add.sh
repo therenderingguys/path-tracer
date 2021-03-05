@@ -1,1 +1,1 @@
-find src test \( -name \*.h -o -name \*.cpp \) -exec ~/go/bin/addlicense -c "F. Lotfi \& D. Kane" -l bsd  {} \;
+find src test \( -name \*.h -o -name \*.cpp \) -exec ~/go/bin/addlicense -c "F. Lotfi & D. Kane" -l bsd  {} \;2

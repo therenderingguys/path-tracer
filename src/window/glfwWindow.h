@@ -20,9 +20,12 @@ private:
   Shader mPlainShader;
   void glInit();
   void loadShaders();
+  void drawCallbackInit();
+  void textureInit();
+  uint32_t pixelBufferTexture;
 
 public:
-  GWindowMgr(std::string title, int width = 640, int height = 480);
+  GWindowMgr(std::string title, int width = 10, int height = 10);
   GLFWwindow *getGLFWwindow();
   const std::vector<keyCallBack> &getKeyCallBacks();
   void insertKeyCallback(keyCallBack &kb);

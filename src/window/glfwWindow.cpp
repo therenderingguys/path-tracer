@@ -67,6 +67,33 @@ static void keyCallbackInit(GLFWwindow *window,
   glfwSetKeyCallback(window, KeyCallbackStruct::keyCallback);
 }
 
+void GWindowMgr::textureInit() {
+  std::cout << *(this->mPixelBuffer.get()) << std::endl;
+  glGenTextures(1, &this->pixelBufferTexture);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, this->pixelBufferTexture);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, this->Width(), this->Height(), 0,
+               GL_RGB, GL_UNSIGNED_BYTE, this->mPixelBuffer->data());
+  glGenerateMipmap(GL_TEXTURE_2D);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void GWindowMgr::drawCallbackInit() {
+  drawFunctors.push_back([this]() {
+    glGenTextures(1, &this->pixelBufferTexture);
+    glBindTexture(GL_TEXTURE_2D, this->pixelBufferTexture);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, this->Width(), this->Height(),
+                    GL_RGB, GL_UNSIGNED_BYTE, this->mPixelBuffer->data());
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glBindTexture(GL_TEXTURE_2D, 0);
+  });
+}
+
 static GLFWwindow *glfwWindowInit(const std::string &title, int width,
                                   int height) {
   GLFWwindow *window =
@@ -88,10 +115,10 @@ static GLFWwindow *glfwWindowInit(const std::string &title, int width,
 GLFWwindow *GWindowMgr::getGLFWwindow() { return this->pGlfwWindow; }
 
 void GWindowMgr::glInit() {
-  glViewport(0.0f, 0.0f, width, height);
+  glViewport(0.0f, 0.0f, Width(), Height());
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(0, width, height, 0, 0, 1);
+  glOrtho(0, Width(), Height(), 0, 0, 1);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 }
@@ -169,9 +196,11 @@ void GWindowMgr::init() {
 #endif
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  this->pGlfwWindow = glfwWindowInit(title, width, height);
+  this->pGlfwWindow = glfwWindowInit(title, Width(), Height());
   Singleton::get().insertNewWindow(this);
   keyCallbackInit(this->pGlfwWindow, this->keyCallBacks);
+  textureInit();
+  // drawCallbackInit();
   glInit();
 
 #ifdef DEBUG

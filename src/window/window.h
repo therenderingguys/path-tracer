@@ -7,7 +7,9 @@
 #ifndef __WINDOW_H__
 #define __WINDOW_H__
 
+#include "pixelBuffer.h"
 #include <functional>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -15,20 +17,25 @@ typedef std::function<void()> drawCallBack;
 
 class Window {
 protected:
-  int width, height;
   std::string title;
+  std::unique_ptr<PixelBuffer> mPixelBuffer;
   std::vector<drawCallBack> drawFunctors;
   void draw();
 
 public:
-  Window(std::string title, int width, int height);
+  Window(std::string title, std::unique_ptr<PixelBuffer> pixelBuffer);
+  Window(std::string title, size_t width, size_t height);
   virtual void init() = 0;
   virtual void run() = 0;
-  int Width() const { return width; }
-  int Height() const { return height; }
+  size_t Width() const { return mPixelBuffer->Width(); }
+  size_t Height() const { return mPixelBuffer->Height(); }
   std::string Title() const { return title; }
+  void setPixelBuffer(std::unique_ptr<PixelBuffer> pixelBuffer);
   void insertDrawCallback(drawCallBack &db);
   const std::vector<drawCallBack> &getDrawCallBacks();
+  void setPixel(size_t x, size_t y, uint8_t color);
+  void setPixel(size_t x, size_t y, glm::u8vec4 color);
+  void setPixel(size_t x, size_t y, glm::u8vec3 color);
 };
 
 #endif // __WINDOW_H__
