@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2021 F. Lotfi & D. Kane All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
 
 #ifndef __CAMERA_H__
 #define __CAMERA_H__
@@ -17,7 +22,7 @@ private:
 public:
   Camera();
   Camera(glm::vec3 &o, glm::vec3 &d, float fov = glm::radians(45.0f));
-  
+
   const glm::vec3 &direction() const { return mDirection; }
   void setDirection(glm::vec3 &dir) { this->mDirection = dir; }
 
