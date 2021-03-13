@@ -108,21 +108,51 @@ GWindowMgr::~GWindowMgr() {
     glfwDestroyWindow(pGlfwWindow);
   }
   glfwTerminate();
-  // exit(EXIT_SUCCESS);
+}
+
+void GWindowMgr::loadShaders() {
+  int attempts = 0;
+  while (attempts < 3) {
+    try {
+      mPlainShader.loadShaders("shaders/uiShader.vert",
+                               "shaders/uiShader.frag");
+      return;
+    } catch (std::runtime_error &error) {
+      std::cerr << error.what() << std::endl;
+    } catch (std::exception &error) {
+      std::cerr << error.what() << std::endl;
+    }
+    attempts++;
+  }
+  std::cerr << "Max attempts of " << attempts << "reached" << std::endl;
+  exit(EXIT_FAILURE);
 }
 
 void GWindowMgr::run() {
-  while (!glfwWindowShouldClose(pGlfwWindow)) {
-    if (this->pGlfwWindow != glfwGetCurrentContext()) {
-      glfwMakeContextCurrent(this->pGlfwWindow);
-    }
-    glClear(GL_COLOR_BUFFER_BIT);
-    draw();
-    // Swap buffers
-    glfwSwapBuffers(pGlfwWindow);
+  try {
+    while (!glfwWindowShouldClose(pGlfwWindow)) {
+      if (this->pGlfwWindow != glfwGetCurrentContext()) {
+        glfwMakeContextCurrent(this->pGlfwWindow);
+      }
+      glClear(GL_COLOR_BUFFER_BIT);
+      mPlainShader.begin();
 
-    // this has to run on the main thread
-    glfwPollEvents();
+      draw();
+
+      // Swap buffers
+      glfwSwapBuffers(pGlfwWindow);
+
+      // this has to run on the main thread
+      glfwPollEvents();
+
+      mPlainShader.end();
+    }
+  } catch (std::runtime_error &error) {
+    std::cerr << error.what() << std::endl;
+    std::cin.get();
+  } catch (std::exception &error) {
+    std::cerr << error.what() << std::endl;
+    std::cin.get();
   }
 }
 
@@ -134,11 +164,33 @@ void GWindowMgr::init() {
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+#ifdef __APPLE__
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
   this->pGlfwWindow = glfwWindowInit(title, width, height);
   Singleton::get().insertNewWindow(this);
   keyCallbackInit(this->pGlfwWindow, this->keyCallBacks);
   glInit();
+
+#ifdef DEBUG
+  const char *gl_vendor =
+      reinterpret_cast<const char *>(glGetString(GL_VENDOR));
+  const char *gl_renderer =
+      reinterpret_cast<const char *>(glGetString(GL_RENDERER));
+  const char *gl_version =
+      reinterpret_cast<const char *>(glGetString(GL_VERSION));
+  const char *gl_extensions =
+      reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS));
+  std::cout << "GL_VENDOR: " << (gl_vendor ? gl_vendor : "(null)") << std::endl;
+  std::cout << "GL_RENDERER: " << (gl_renderer ? gl_renderer : "(null)")
+            << std::endl;
+  std::cout << "GL_VERSION: " << (gl_version ? gl_version : "(null)")
+            << std::endl;
+  std::cout << "GL_EXTENSIONS: " << (gl_extensions ? gl_extensions : "(null)")
+            << std::endl;
+#endif
+
+  loadShaders();
 }

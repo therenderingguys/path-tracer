@@ -7,6 +7,7 @@
 #ifndef __GLFW_WINDOW_H__
 #define __GLFW_WINDOW_H__
 
+#include "renderer/shader.h"
 #include "window.h"
 
 struct GLFWwindow;
@@ -16,7 +17,9 @@ class GWindowMgr : public Window {
 private:
   GLFWwindow *pGlfwWindow;
   std::vector<keyCallBack> keyCallBacks;
+  Shader mPlainShader;
   void glInit();
+  void loadShaders();
 
 public:
   GWindowMgr(std::string title, int width = 640, int height = 480);
