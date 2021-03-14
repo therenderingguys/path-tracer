@@ -68,7 +68,7 @@ static void keyCallbackInit(GLFWwindow *window,
 }
 
 void GWindowMgr::textureInit() {
-  std::cout << *(this->mPixelBuffer.get()) << std::endl;
+  //std::cout << *(this->mPixelBuffer.get()) << std::endl;
   glGenTextures(1, &this->pixelBufferTexture);
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, this->pixelBufferTexture);
@@ -200,7 +200,7 @@ void GWindowMgr::init() {
   Singleton::get().insertNewWindow(this);
   keyCallbackInit(this->pGlfwWindow, this->keyCallBacks);
   textureInit();
-  // drawCallbackInit();
+  drawCallbackInit();
   glInit();
 
 #ifdef DEBUG

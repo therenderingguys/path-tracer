@@ -54,6 +54,11 @@ void TriangleTest::init() {
 
 int main(int argc, char *argv[]) {
   GWindowMgr gWindow("Test");
+  for (size_t y = 0; y < gWindow.Height(); y++) {
+    for (size_t x = 0; x < gWindow.Height(); x++) {
+      gWindow.setPixel(x, y, glm::u8vec3(0, 0, 255));
+    }
+  }
   TriangleTest tt;
   drawCallBack func = [&tt]() { tt.draw(); };
   gWindow.insertDrawCallback(func);

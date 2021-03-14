@@ -25,7 +25,7 @@ private:
   uint32_t pixelBufferTexture;
 
 public:
-  GWindowMgr(std::string title, int width = 10, int height = 10);
+  GWindowMgr(std::string title, int width = 640, int height = 480);
   GLFWwindow *getGLFWwindow();
   const std::vector<keyCallBack> &getKeyCallBacks();
   void insertKeyCallback(keyCallBack &kb);
