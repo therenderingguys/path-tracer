@@ -124,7 +124,7 @@ void GWindowMgr::loadShaders() {
     }
     attempts++;
   }
-  std::cerr << "Max attempts of " << attempts << "reached" << std::endl;
+  std::cerr << "Max attempts of " << attempts << " reached." << std::endl;
   exit(EXIT_FAILURE);
 }
 

@@ -55,11 +55,13 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -std=c++14")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
-    # Note MSVC doesn't run from path-tracer dir
-    # Confirm with Dan if this is the right Dir.
-    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders
-     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/src/main/shaders)
 endif()
+
+ # Note this is primarily done for MSVC which 
+ # doesn't run from path-tracer dir. However its
+ # good practice to package the shaders with the binary.
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/src/main)
  
 find_package(GLM) # Look up GLM
 find_package(glfw3 3.3) # Look up glfw
