@@ -12,3 +12,11 @@ void Window::draw() {
     df();
   }
 }
+
+void Window::insertDrawCallback(drawCallBack &db) {
+  this->drawFunctors.push_back(db);
+}
+
+const std::vector<drawCallBack> &Window::getDrawCallBacks() {
+  return drawFunctors;
+}

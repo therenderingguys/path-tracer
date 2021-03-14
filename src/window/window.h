@@ -11,11 +11,13 @@
 #include <string>
 #include <vector>
 
+typedef std::function<void()> drawCallBack;
+
 class Window {
 protected:
   int width, height;
   std::string title;
-  std::vector<std::function<void()>> drawFunctors;
+  std::vector<drawCallBack> drawFunctors;
   void draw();
 
 public:
@@ -25,6 +27,8 @@ public:
   int Width() const { return width; }
   int Height() const { return height; }
   std::string Title() const { return title; }
+  void insertDrawCallback(drawCallBack &db);
+  const std::vector<drawCallBack> &getDrawCallBacks();
 };
 
 #endif // __WINDOW_H__

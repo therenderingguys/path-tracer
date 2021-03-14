@@ -1,6 +1,16 @@
+set (SourceFiles
+     shader.cpp
+     renderer.cpp
+)
+
+set(HeaderFiles
+    shader.h
+    renderer.h
+)
+
 add_library (PathTracer.Renderer OBJECT
-    renderer.cpp
-    )
+             ${SourceFiles} ${HeaderFiles}
+)
 
 include_directories(${PATH_TRACER_SOURCE_DIR})
 
