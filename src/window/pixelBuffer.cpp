@@ -30,7 +30,7 @@ void PixelBuffer::setPixel(size_t x, size_t y, uint8_t color) {
 void PixelBuffer::setPixel(size_t x, size_t y, glm::u8vec3 color) {
   assert(mChannel == ColorChannels::RGB);
   size_t index = (y * Width() + x) * static_cast<uint8_t>(mChannel);
-  //std::cout << "index: " << index << std::endl;
+  // std::cout << "index: " << index << std::endl;
   mBuffer[index] = color[0];
   mBuffer[index + 1] = color[1];
   mBuffer[index + 2] = color[2];
@@ -43,6 +43,29 @@ void PixelBuffer::setPixel(size_t x, size_t y, glm::u8vec4 color) {
   mBuffer[index + 1] = color[1];
   mBuffer[index + 2] = color[2];
   mBuffer[index + 3] = color[3];
+}
+
+template <typename T> T PixelBuffer::getPixel(size_t x, size_t y) {
+  throw std::runtime_error("not a supported type");
+}
+
+template <> uint8_t PixelBuffer::getPixel<uint8_t>(size_t x, size_t y) {
+  assert(mChannel == ColorChannels::BW);
+  size_t index = (y * Width() + x);
+  return mBuffer[index];
+}
+
+template <> glm::u8vec3 PixelBuffer::getPixel<glm::u8vec3>(size_t x, size_t y) {
+  assert(mChannel == ColorChannels::RGB);
+  size_t index = (y * Width() + x) * static_cast<uint8_t>(mChannel);
+  return glm::u8vec3(mBuffer[index], mBuffer[index + 1], mBuffer[index + 2]);
+}
+
+template <> glm::u8vec4 PixelBuffer::getPixel<glm::u8vec4>(size_t x, size_t y) {
+  assert(mChannel == ColorChannels::RGBA);
+  size_t index = (y * Width() + x) * static_cast<uint8_t>(mChannel);
+  return glm::u8vec4(mBuffer[index], mBuffer[index + 1], mBuffer[index + 2],
+                     mBuffer[index + 3]);
 }
 
 uint8_t &PixelBuffer::operator[](size_t index) {

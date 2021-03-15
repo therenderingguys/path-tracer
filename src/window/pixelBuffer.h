@@ -9,6 +9,7 @@
 
 #include <glm/glm.hpp>
 #include <iostream>
+#include <iterator>
 #include <vector>
 
 struct Size {
@@ -35,6 +36,9 @@ public:
   void setPixel(size_t x, size_t y, uint8_t color);
   void setPixel(size_t x, size_t y, glm::u8vec3 color);
   void setPixel(size_t x, size_t y, glm::u8vec4 color);
+
+  template <typename T> T getPixel(size_t x, size_t y);
+
   size_t Height() const { return size.Height; }
   size_t Width() const { return size.Width; }
   const std::vector<uint8_t> &buffer() const;

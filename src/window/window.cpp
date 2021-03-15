@@ -20,6 +20,8 @@ void Window::setPixelBuffer(std::unique_ptr<PixelBuffer> pixelBuffer) {
   mPixelBuffer = std::move(pixelBuffer);
 }
 
+std::unique_ptr<PixelBuffer> &Window::getPixelBuffer() { return mPixelBuffer; }
+
 void Window::insertDrawCallback(drawCallBack &db) {
   this->drawFunctors.push_back(db);
 }

@@ -67,33 +67,6 @@ static void keyCallbackInit(GLFWwindow *window,
   glfwSetKeyCallback(window, KeyCallbackStruct::keyCallback);
 }
 
-void GWindowMgr::textureInit() {
-  //std::cout << *(this->mPixelBuffer.get()) << std::endl;
-  glGenTextures(1, &this->pixelBufferTexture);
-  glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, this->pixelBufferTexture);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, this->Width(), this->Height(), 0,
-               GL_RGB, GL_UNSIGNED_BYTE, this->mPixelBuffer->data());
-  glGenerateMipmap(GL_TEXTURE_2D);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-void GWindowMgr::drawCallbackInit() {
-  drawFunctors.push_back([this]() {
-    glGenTextures(1, &this->pixelBufferTexture);
-    glBindTexture(GL_TEXTURE_2D, this->pixelBufferTexture);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, this->Width(), this->Height(),
-                    GL_RGB, GL_UNSIGNED_BYTE, this->mPixelBuffer->data());
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glBindTexture(GL_TEXTURE_2D, 0);
-  });
-}
-
 static GLFWwindow *glfwWindowInit(const std::string &title, int width,
                                   int height) {
   GLFWwindow *window =
@@ -155,6 +128,26 @@ void GWindowMgr::loadShaders() {
   exit(EXIT_FAILURE);
 }
 
+#if DEBUG
+void GWindowMgr::queryGPU() {
+  const char *gl_vendor =
+      reinterpret_cast<const char *>(glGetString(GL_VENDOR));
+  const char *gl_renderer =
+      reinterpret_cast<const char *>(glGetString(GL_RENDERER));
+  const char *gl_version =
+      reinterpret_cast<const char *>(glGetString(GL_VERSION));
+  const char *gl_extensions =
+      reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS));
+  std::cout << "GL_VENDOR: " << (gl_vendor ? gl_vendor : "(null)") << std::endl;
+  std::cout << "GL_RENDERER: " << (gl_renderer ? gl_renderer : "(null)")
+            << std::endl;
+  std::cout << "GL_VERSION: " << (gl_version ? gl_version : "(null)")
+            << std::endl;
+  std::cout << "GL_EXTENSIONS: " << (gl_extensions ? gl_extensions : "(null)")
+            << std::endl;
+}
+#endif
+
 void GWindowMgr::run() {
   try {
     while (!glfwWindowShouldClose(pGlfwWindow)) {
@@ -199,26 +192,10 @@ void GWindowMgr::init() {
   this->pGlfwWindow = glfwWindowInit(title, Width(), Height());
   Singleton::get().insertNewWindow(this);
   keyCallbackInit(this->pGlfwWindow, this->keyCallBacks);
-  textureInit();
-  drawCallbackInit();
   glInit();
 
 #ifdef DEBUG
-  const char *gl_vendor =
-      reinterpret_cast<const char *>(glGetString(GL_VENDOR));
-  const char *gl_renderer =
-      reinterpret_cast<const char *>(glGetString(GL_RENDERER));
-  const char *gl_version =
-      reinterpret_cast<const char *>(glGetString(GL_VERSION));
-  const char *gl_extensions =
-      reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS));
-  std::cout << "GL_VENDOR: " << (gl_vendor ? gl_vendor : "(null)") << std::endl;
-  std::cout << "GL_RENDERER: " << (gl_renderer ? gl_renderer : "(null)")
-            << std::endl;
-  std::cout << "GL_VERSION: " << (gl_version ? gl_version : "(null)")
-            << std::endl;
-  std::cout << "GL_EXTENSIONS: " << (gl_extensions ? gl_extensions : "(null)")
-            << std::endl;
+  queryGPU();
 #endif
 
   loadShaders();

@@ -3,9 +3,7 @@
 // license that can be found in the LICENSE file.
 
 #include "window/glfwWindow.h"
-//#include "window/pixelBuffer.h"
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
 #include <iostream>
 
 class TriangleTest {
@@ -54,11 +52,6 @@ void TriangleTest::init() {
 
 int main(int argc, char *argv[]) {
   GWindowMgr gWindow("Test");
-  for (size_t y = 0; y < gWindow.Height(); y++) {
-    for (size_t x = 0; x < gWindow.Height(); x++) {
-      gWindow.setPixel(x, y, glm::u8vec3(0, 0, 255));
-    }
-  }
   TriangleTest tt;
   drawCallBack func = [&tt]() { tt.draw(); };
   gWindow.insertDrawCallback(func);

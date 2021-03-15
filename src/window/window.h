@@ -31,6 +31,7 @@ public:
   size_t Height() const { return mPixelBuffer->Height(); }
   std::string Title() const { return title; }
   void setPixelBuffer(std::unique_ptr<PixelBuffer> pixelBuffer);
+  std::unique_ptr<PixelBuffer> &getPixelBuffer();
   void insertDrawCallback(drawCallBack &db);
   const std::vector<drawCallBack> &getDrawCallBacks();
   void setPixel(size_t x, size_t y, uint8_t color);

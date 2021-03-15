@@ -29,3 +29,4 @@ target_link_libraries (${PROJECT_NAME}
 add_subdirectory (raycast)
 add_subdirectory (renderer)
 add_subdirectory (scene)
+add_subdirectory (window)

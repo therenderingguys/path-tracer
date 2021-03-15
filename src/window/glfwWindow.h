@@ -20,8 +20,9 @@ private:
   Shader mPlainShader;
   void glInit();
   void loadShaders();
-  void drawCallbackInit();
-  void textureInit();
+#if DEBUG
+  void queryGPU();
+#endif
   uint32_t pixelBufferTexture;
 
 public:
