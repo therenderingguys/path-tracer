@@ -25,22 +25,26 @@ enum class ColorChannels : uint8_t {
 
 class PixelBuffer {
 private:
-  Size size;
+  Size mSize;
   std::vector<uint8_t> mBuffer;
   ColorChannels mChannel;
 
 public:
   PixelBuffer(size_t width, size_t height,
               ColorChannels cc = ColorChannels::RGB);
-  void resizeBuffer(size_t h, size_t w);
+  void resizeBuffer(size_t width, size_t height);
   void setPixel(size_t x, size_t y, uint8_t color);
   void setPixel(size_t x, size_t y, glm::u8vec3 color);
   void setPixel(size_t x, size_t y, glm::u8vec4 color);
 
   template <typename T> T getPixel(size_t x, size_t y);
 
-  size_t Height() const { return size.Height; }
-  size_t Width() const { return size.Width; }
+  size_t height() const { return mSize.Height; }
+  size_t width() const { return mSize.Width; }
+  size_t size() const { return mBuffer.size(); }
+  inline uint8_t getColorChannels() const {
+    return static_cast<uint8_t>(mChannel);
+  }
   const std::vector<uint8_t> &buffer() const;
   uint8_t *data();
   uint8_t &operator[](size_t);

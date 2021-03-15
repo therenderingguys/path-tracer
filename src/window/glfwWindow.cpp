@@ -88,10 +88,10 @@ static GLFWwindow *glfwWindowInit(const std::string &title, int width,
 GLFWwindow *GWindowMgr::getGLFWwindow() { return this->pGlfwWindow; }
 
 void GWindowMgr::glInit() {
-  glViewport(0.0f, 0.0f, Width(), Height());
+  glViewport(0.0f, 0.0f, width(), height());
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(0, Width(), Height(), 0, 0, 1);
+  glOrtho(0, width(), height(), 0, 0, 1);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 }
@@ -189,7 +189,7 @@ void GWindowMgr::init() {
 #endif
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  this->pGlfwWindow = glfwWindowInit(title, Width(), Height());
+  this->pGlfwWindow = glfwWindowInit(title, width(), height());
   Singleton::get().insertNewWindow(this);
   keyCallbackInit(this->pGlfwWindow, this->keyCallBacks);
   glInit();

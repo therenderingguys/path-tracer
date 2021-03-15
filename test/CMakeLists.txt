@@ -20,6 +20,7 @@ add_executable(${PROJECT_NAME}
                $<TARGET_OBJECTS:PathTracer.RayCastTest>
                $<TARGET_OBJECTS:PathTracer.SceneTest>
                $<TARGET_OBJECTS:PathTracer.RendererTest>
+               $<TARGET_OBJECTS:PathTracer.WindowTest>
                test.cpp
 )
 

@@ -27,11 +27,11 @@ public:
   Window(std::string title, size_t width, size_t height);
   virtual void init() = 0;
   virtual void run() = 0;
-  size_t Width() const { return mPixelBuffer->Width(); }
-  size_t Height() const { return mPixelBuffer->Height(); }
+  size_t width() const { return mPixelBuffer->width(); }
+  size_t height() const { return mPixelBuffer->height(); }
   std::string Title() const { return title; }
   void setPixelBuffer(std::unique_ptr<PixelBuffer> pixelBuffer);
-  std::unique_ptr<PixelBuffer> &getPixelBuffer();
+  PixelBuffer *getPixelBuffer();
   void insertDrawCallback(drawCallBack &db);
   const std::vector<drawCallBack> &getDrawCallBacks();
   void setPixel(size_t x, size_t y, uint8_t color);
