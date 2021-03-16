@@ -1,12 +1,14 @@
 set (SourceFiles
      glfwWindow.cpp
      window.cpp
+     pixelBuffer.cpp
 )
 
 set(HeaderFiles
     glfwWindow.h
     window.h
     singleton.h
+    pixelBuffer.h
 )
 
 add_library (PathTracer.Window OBJECT

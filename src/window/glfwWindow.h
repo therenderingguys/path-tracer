@@ -20,6 +20,10 @@ private:
   Shader mPlainShader;
   void glInit();
   void loadShaders();
+#if DEBUG
+  void queryGPU();
+#endif
+  uint32_t pixelBufferTexture;
 
 public:
   GWindowMgr(std::string title, int width = 640, int height = 480);

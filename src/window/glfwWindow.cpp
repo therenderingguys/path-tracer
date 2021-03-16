@@ -88,10 +88,10 @@ static GLFWwindow *glfwWindowInit(const std::string &title, int width,
 GLFWwindow *GWindowMgr::getGLFWwindow() { return this->pGlfwWindow; }
 
 void GWindowMgr::glInit() {
-  glViewport(0.0f, 0.0f, width, height);
+  glViewport(0.0f, 0.0f, width(), height());
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(0, width, height, 0, 0, 1);
+  glOrtho(0, width(), height(), 0, 0, 1);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 }
@@ -127,6 +127,26 @@ void GWindowMgr::loadShaders() {
   std::cerr << "Max attempts of " << attempts << " reached." << std::endl;
   exit(EXIT_FAILURE);
 }
+
+#if DEBUG
+void GWindowMgr::queryGPU() {
+  const char *gl_vendor =
+      reinterpret_cast<const char *>(glGetString(GL_VENDOR));
+  const char *gl_renderer =
+      reinterpret_cast<const char *>(glGetString(GL_RENDERER));
+  const char *gl_version =
+      reinterpret_cast<const char *>(glGetString(GL_VERSION));
+  const char *gl_extensions =
+      reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS));
+  std::cout << "GL_VENDOR: " << (gl_vendor ? gl_vendor : "(null)") << std::endl;
+  std::cout << "GL_RENDERER: " << (gl_renderer ? gl_renderer : "(null)")
+            << std::endl;
+  std::cout << "GL_VERSION: " << (gl_version ? gl_version : "(null)")
+            << std::endl;
+  std::cout << "GL_EXTENSIONS: " << (gl_extensions ? gl_extensions : "(null)")
+            << std::endl;
+}
+#endif
 
 void GWindowMgr::run() {
   try {
@@ -169,27 +189,13 @@ void GWindowMgr::init() {
 #endif
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  this->pGlfwWindow = glfwWindowInit(title, width, height);
+  this->pGlfwWindow = glfwWindowInit(title, width(), height());
   Singleton::get().insertNewWindow(this);
   keyCallbackInit(this->pGlfwWindow, this->keyCallBacks);
   glInit();
 
 #ifdef DEBUG
-  const char *gl_vendor =
-      reinterpret_cast<const char *>(glGetString(GL_VENDOR));
-  const char *gl_renderer =
-      reinterpret_cast<const char *>(glGetString(GL_RENDERER));
-  const char *gl_version =
-      reinterpret_cast<const char *>(glGetString(GL_VERSION));
-  const char *gl_extensions =
-      reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS));
-  std::cout << "GL_VENDOR: " << (gl_vendor ? gl_vendor : "(null)") << std::endl;
-  std::cout << "GL_RENDERER: " << (gl_renderer ? gl_renderer : "(null)")
-            << std::endl;
-  std::cout << "GL_VERSION: " << (gl_version ? gl_version : "(null)")
-            << std::endl;
-  std::cout << "GL_EXTENSIONS: " << (gl_extensions ? gl_extensions : "(null)")
-            << std::endl;
+  queryGPU();
 #endif
 
   loadShaders();

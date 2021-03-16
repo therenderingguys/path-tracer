@@ -20,6 +20,7 @@ add_executable(${PROJECT_NAME}
                $<TARGET_OBJECTS:PathTracer.RayCastTest>
                $<TARGET_OBJECTS:PathTracer.SceneTest>
                $<TARGET_OBJECTS:PathTracer.RendererTest>
+               $<TARGET_OBJECTS:PathTracer.WindowTest>
                test.cpp
 )
 
@@ -29,3 +30,4 @@ target_link_libraries (${PROJECT_NAME}
 add_subdirectory (raycast)
 add_subdirectory (renderer)
 add_subdirectory (scene)
+add_subdirectory (window)
