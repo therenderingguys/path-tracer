@@ -1,11 +1,19 @@
 set (SourceFiles
-     shader.cpp
+     boundingBox.cpp
+     rectangle.cpp
      renderer.cpp
+     shader.cpp
+     shape.cpp
+     texture.cpp
 )
 
 set(HeaderFiles
-    shader.h
+    boundingBox.h
+    rectangle.h
     renderer.h
+    shader.h
+    shape.h
+    texture.h
 )
 
 add_library (PathTracer.Renderer OBJECT
