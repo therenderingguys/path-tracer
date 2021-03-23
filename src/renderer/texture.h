@@ -11,14 +11,15 @@
 
 class Texture {
 private:
-  GLuint texture;
+  bool mVisited;
+  GLuint mTexture;
   GLuint matToTexture(PixelBuffer &buffer, GLenum minFilter, GLenum magFilter,
                       GLenum wrapFilter);
 
 public:
-  Texture();
+  Texture() : mVisited(false), mTexture(0) {}
   GLuint genTexture(PixelBuffer &buffer);
-  virtual ~Texture() { glDeleteTextures(1, &this->texture); }
+  virtual ~Texture() { glDeleteTextures(1, &this->mTexture); }
 };
 
 #endif

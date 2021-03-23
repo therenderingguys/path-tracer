@@ -13,16 +13,15 @@
 #include "glfwWindow.h"
 
 ShaderProperties::ShaderProperties()
-    : uicolorHandle(0), uiResolution(0), uiTextureSampler(0),
-      uiTextureHandle(0), uiPositionHandle(0), useColorHandle(0) {}
+    : uicolorHandle(0), uiColor(0), uiTextureSampler(0),
+      uiTextureHandle(0), uiPositionHandle(0) {}
 
 void ShaderProperties::init(Shader &uiShader) {
   uiPositionHandle = uiShader.getAttribLocation("a_position");
   uiTextureHandle = uiShader.getAttribLocation("a_texture");
+  uiColor = uiShader.getUniformLocation("a_color");
   uiTextureSampler = uiShader.getUniformLocation("u_texture");
-  uiResolution = uiShader.getUniformLocation("u_resolution");
-  uicolorHandle = uiShader.getUniformLocation("color");
-  useColorHandle = uiShader.getUniformLocation("use_color");
+  uicolorHandle = uiShader.getUniformLocation("o_color");
 }
 
 struct GWindowMgr {
@@ -99,9 +98,6 @@ void GLWindow::windowResized(int width, int height) {
   this->mWidth = width;
   this->mHeight = height;
   glViewport(0, 0, width, height);
-  float ratio = width / static_cast<float>(height);
-  mShaderProperties.resolution[0] = static_cast<float>(width);
-  mShaderProperties.resolution[1] = static_cast<float>(height);
   for (int rectIndex = 0; rectIndex < mRectangles.size(); rectIndex++) {
     for (int i = 0; i < height; i += height / mLayout.Cols) {
       for (int j = 0; j < width; j += width / mLayout.Rows) {
@@ -172,8 +168,6 @@ void GLWindow::loadShaders() {
       mShaderProperties.init(mPlainShader);
       drawCallBack dfunc = [this]() {
         this->mPlainShader.begin();
-        glUniform2fv(mShaderProperties.uiResolution, 1,
-                     mShaderProperties.resolution);
         for (unsigned int i = 0; i < this->mRectangles.size(); i++) {
           mRectangles[i]->render(mShaderProperties.uiPositionHandle, -1,
                                  mShaderProperties.uiTextureHandle);
@@ -181,7 +175,7 @@ void GLWindow::loadShaders() {
         this->mPlainShader.end();
       };
       //TODO setup the pixelBuffer
-      //insertDrawCallback(dfunc);
+      insertDrawCallback(dfunc);
       return;
     } catch (std::runtime_error &error) {
       std::cerr << error.what() << std::endl;

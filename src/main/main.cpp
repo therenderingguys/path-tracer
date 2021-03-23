@@ -52,14 +52,19 @@ void TriangleTest::init() {
 
 int main(int argc, char *argv[]) {
   GLWindow gWindow("Test");
-  TriangleTest tt;
-  drawCallBack func = [&tt]() { tt.draw(); };
-  gWindow.insertDrawCallback(func);
+  for (size_t y = 0; y < gWindow.height(); y++) {
+    for (size_t x = 0; x < gWindow.width(); x++) {
+      gWindow.setPixel(x, y, glm::u8vec3(0, 0, 255));
+    }
+  }
+  //TriangleTest tt;
+  //drawCallBack func = [&tt]() { tt.draw(); };
+  //gWindow.insertDrawCallback(func);
   gWindow.init();
   // Warning tt.int() has to be called after the window init.
   // may consider adding an int functor vector if we find
   // more things have to be initialized.
-  tt.init();
+  //tt.init();
   gWindow.run();
 
   return 0;

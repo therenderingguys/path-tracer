@@ -17,13 +17,11 @@ struct RectangleLayout {
 };
 
 struct ShaderProperties {
-  int useColorHandle;
   int uiPositionHandle;
   int uiTextureHandle;
   int uiTextureSampler;
-  int uiResolution;
+  int uiColor;
   int uicolorHandle;
-  float resolution[2];
   ShaderProperties();
   void init(Shader &uiShader);
 };

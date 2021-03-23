@@ -18,6 +18,7 @@ Rectangle::Rectangle(const glm::vec3 &p1, float width, float height) : Shape() {
 
 void Rectangle::pbInit(const glm::vec3 &p1, float width, float height) {
   mPixelBuffer = std::make_unique<PixelBuffer>(width, height);
+  mTexture = std::make_unique<Texture>();
   Rectangle::initialize(p1, glm::vec3(p1.x + width, p1.y, 0),
                         glm::vec3(p1.x + width, p1.y - height, 0),
                         glm::vec3(p1.x, p1.y - height, 0));
