@@ -5,6 +5,7 @@ set (SourceFiles
      shader.cpp
      shape.cpp
      texture.cpp
+     pixelBuffer.cpp
 )
 
 set(HeaderFiles
@@ -14,6 +15,7 @@ set(HeaderFiles
     shader.h
     shape.h
     texture.h
+    pixelBuffer.h
 )
 
 add_library (PathTracer.Renderer OBJECT

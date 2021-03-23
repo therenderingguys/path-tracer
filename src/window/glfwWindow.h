@@ -7,32 +7,58 @@
 #ifndef __GLFW_WINDOW_H__
 #define __GLFW_WINDOW_H__
 
+#include "renderer/rectangle.h"
 #include "renderer/shader.h"
 #include "window.h"
+
+struct RectangleLayout {
+  int Rows;
+  int Cols;
+};
+
+struct ShaderProperties {
+  int useColorHandle;
+  int uiPositionHandle;
+  int uiTextureHandle;
+  int uiTextureSampler;
+  int uiResolution;
+  int uicolorHandle;
+  float resolution[2];
+  ShaderProperties();
+  void init(Shader &uiShader);
+};
 
 struct GLFWwindow;
 typedef std::function<void(GLFWwindow *, int, int, int, int)> keyCallBack;
 
-class GWindowMgr : public Window {
+class GLWindow : public Window {
 private:
   GLFWwindow *pGlfwWindow;
   std::vector<keyCallBack> keyCallBacks;
+  std::vector<std::unique_ptr<Rectangle>> mRectangles;
   Shader mPlainShader;
+  ShaderProperties mShaderProperties;
+  RectangleLayout mLayout;
   void glInit();
   void loadShaders();
 #if DEBUG
   void queryGPU();
 #endif
-  uint32_t pixelBufferTexture;
 
 public:
-  GWindowMgr(std::string title, int width = 640, int height = 480);
+  GLWindow(std::string title, int width = 640, int height = 480,
+           RectangleLayout layout = {1, 1});
   GLFWwindow *getGLFWwindow();
   const std::vector<keyCallBack> &getKeyCallBacks();
   void insertKeyCallback(keyCallBack &kb);
   virtual void init() final;
   virtual void run() final;
-  virtual ~GWindowMgr();
+  virtual ~GLWindow();
+  PixelBuffer *getPixelBuffer();
+  void setPixel(size_t x, size_t y, uint8_t color);
+  void setPixel(size_t x, size_t y, glm::u8vec4 color);
+  void setPixel(size_t x, size_t y, glm::u8vec3 color);
+  void windowResized(int width, int height);
 };
 
 #endif // __GLFW_WINDOW_H__

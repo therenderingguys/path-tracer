@@ -12,44 +12,67 @@
 #include "singleton.h"
 #include "glfwWindow.h"
 
-struct KeyCallbackStruct {
+ShaderProperties::ShaderProperties()
+    : uicolorHandle(0), uiResolution(0), uiTextureSampler(0),
+      uiTextureHandle(0), uiPositionHandle(0), useColorHandle(0) {}
+
+void ShaderProperties::init(Shader &uiShader) {
+  uiPositionHandle = uiShader.getAttribLocation("a_position");
+  uiTextureHandle = uiShader.getAttribLocation("a_texture");
+  uiTextureSampler = uiShader.getUniformLocation("u_texture");
+  uiResolution = uiShader.getUniformLocation("u_resolution");
+  uicolorHandle = uiShader.getUniformLocation("color");
+  useColorHandle = uiShader.getUniformLocation("use_color");
+}
+
+struct GWindowMgr {
 private:
-  std::unordered_map<GLFWwindow *, GWindowMgr *> windowMap;
+  std::unordered_map<GLFWwindow *, GLWindow *> windowMap;
 
 public:
-  void insertNewWindow(GWindowMgr *window);
-  GWindowMgr *getWindowMgr(GLFWwindow *window);
+  void insertNewWindow(GLWindow *window);
+  GLWindow *getGLWindow(GLFWwindow *window);
   static void keyCallback(GLFWwindow *window, int key, int scancode, int action,
                           int mods);
+  static void windowResizeCallback(GLFWwindow *window, int width, int height);
 };
 
-typedef SingletonBase<KeyCallbackStruct> Singleton;
+typedef SingletonBase<GWindowMgr> Singleton;
 
-void KeyCallbackStruct::keyCallback(GLFWwindow *window, int key, int scancode,
-                                    int action, int mods) {
-  GWindowMgr *windowMgr = Singleton::get().getWindowMgr(window);
-  if (windowMgr == nullptr) {
+void GWindowMgr::keyCallback(GLFWwindow *window, int key, int scancode,
+                             int action, int mods) {
+  GLWindow *glWindow = Singleton::get().getGLWindow(window);
+  if (glWindow == nullptr) {
     return;
   }
-  for (const keyCallBack &kb : windowMgr->getKeyCallBacks()) {
+  for (const keyCallBack &kb : glWindow->getKeyCallBacks()) {
     kb(window, key, scancode, action, mods);
   }
 }
 
-void KeyCallbackStruct::insertNewWindow(GWindowMgr *window) {
+void GWindowMgr::windowResizeCallback(GLFWwindow *window, int width,
+                                      int height) {
+  GLWindow *glWindow = Singleton::get().getGLWindow(window);
+  if (glWindow == nullptr) {
+    return;
+  }
+  glWindow->windowResized(width, height);
+}
+
+void GWindowMgr::insertNewWindow(GLWindow *window) {
   if (window) {
     windowMap[window->getGLFWwindow()] = window;
   }
 }
 
-GWindowMgr *KeyCallbackStruct::getWindowMgr(GLFWwindow *window) {
+GLWindow *GWindowMgr::getGLWindow(GLFWwindow *window) {
   if (windowMap.count(window) == 1) {
     return windowMap[window];
   }
   return nullptr;
 }
 
-const std::vector<keyCallBack> &GWindowMgr::getKeyCallBacks() {
+const std::vector<keyCallBack> &GLWindow::getKeyCallBacks() {
   return keyCallBacks;
 }
 
@@ -59,12 +82,37 @@ static void keyCallbackInit(GLFWwindow *window,
                             int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
       std::cout << "esc pressed on "
-                << Singleton::get().getWindowMgr(window)->Title() << std::endl;
+                << Singleton::get().getGLWindow(window)->Title() << std::endl;
       glfwSetWindowShouldClose(window, GL_TRUE);
     }
   });
 
-  glfwSetKeyCallback(window, KeyCallbackStruct::keyCallback);
+  glfwSetKeyCallback(window, GWindowMgr::keyCallback);
+}
+
+static void resizeCallbackInit(GLFWwindow *window) {
+
+  glfwSetWindowSizeCallback(window, GWindowMgr::windowResizeCallback);
+}
+
+void GLWindow::windowResized(int width, int height) {
+  this->mWidth = width;
+  this->mHeight = height;
+  glViewport(0, 0, width, height);
+  float ratio = width / static_cast<float>(height);
+  mShaderProperties.resolution[0] = static_cast<float>(width);
+  mShaderProperties.resolution[1] = static_cast<float>(height);
+  for (int rectIndex = 0; rectIndex < mRectangles.size(); rectIndex++) {
+    for (int i = 0; i < height; i += height / mLayout.Cols) {
+      for (int j = 0; j < width; j += width / mLayout.Rows) {
+        mRectangles[rectIndex]->storePoints(
+            glm::vec3(j, i, 0), glm::vec3(j + width / mLayout.Rows, i, 0),
+            glm::vec3(j + width / mLayout.Rows, i + height / mLayout.Cols, 0),
+            glm::vec3(j, i + height / mLayout.Cols, 0));
+        mRectangles[rectIndex]->getPixelBuffer()->resizeBuffer(width,height);
+      }
+    }
+  }
 }
 
 static GLFWwindow *glfwWindowInit(const std::string &title, int width,
@@ -85,9 +133,9 @@ static GLFWwindow *glfwWindowInit(const std::string &title, int width,
   return window;
 }
 
-GLFWwindow *GWindowMgr::getGLFWwindow() { return this->pGlfwWindow; }
+GLFWwindow *GLWindow::getGLFWwindow() { return this->pGlfwWindow; }
 
-void GWindowMgr::glInit() {
+void GLWindow::glInit() {
   glViewport(0.0f, 0.0f, width(), height());
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -96,26 +144,44 @@ void GWindowMgr::glInit() {
   glLoadIdentity();
 }
 
-void GWindowMgr::insertKeyCallback(keyCallBack &kb) {
+void GLWindow::insertKeyCallback(keyCallBack &kb) {
   this->keyCallBacks.push_back(kb);
 }
 
-GWindowMgr::GWindowMgr(std::string title, int width, int height)
-    : Window(title, width, height), pGlfwWindow(nullptr) {}
+GLWindow::GLWindow(std::string title, int width, int height,
+                   RectangleLayout layout)
+    : Window(title, width, height), pGlfwWindow(nullptr), keyCallBacks(),
+      mRectangles(), mPlainShader(), mShaderProperties(), mLayout(layout) {
+  mRectangles.push_back(std::make_unique<Rectangle>(width, height));
+}
 
-GWindowMgr::~GWindowMgr() {
+GLWindow::~GLWindow() {
   if (pGlfwWindow) {
     glfwDestroyWindow(pGlfwWindow);
   }
   glfwTerminate();
 }
 
-void GWindowMgr::loadShaders() {
+void GLWindow::loadShaders() {
   int attempts = 0;
   while (attempts < 3) {
     try {
+      // glEnable(GL_TEXTURE_2D);
       mPlainShader.loadShaders("shaders/uiShader.vert",
                                "shaders/uiShader.frag");
+      mShaderProperties.init(mPlainShader);
+      drawCallBack dfunc = [this]() {
+        this->mPlainShader.begin();
+        glUniform2fv(mShaderProperties.uiResolution, 1,
+                     mShaderProperties.resolution);
+        for (unsigned int i = 0; i < this->mRectangles.size(); i++) {
+          mRectangles[i]->render(mShaderProperties.uiPositionHandle, -1,
+                                 mShaderProperties.uiTextureHandle);
+        }
+        this->mPlainShader.end();
+      };
+      //TODO setup the pixelBuffer
+      //insertDrawCallback(dfunc);
       return;
     } catch (std::runtime_error &error) {
       std::cerr << error.what() << std::endl;
@@ -129,7 +195,7 @@ void GWindowMgr::loadShaders() {
 }
 
 #if DEBUG
-void GWindowMgr::queryGPU() {
+void GLWindow::queryGPU() {
   const char *gl_vendor =
       reinterpret_cast<const char *>(glGetString(GL_VENDOR));
   const char *gl_renderer =
@@ -148,13 +214,13 @@ void GWindowMgr::queryGPU() {
 }
 #endif
 
-void GWindowMgr::run() {
+void GLWindow::run() {
   try {
     while (!glfwWindowShouldClose(pGlfwWindow)) {
       if (this->pGlfwWindow != glfwGetCurrentContext()) {
         glfwMakeContextCurrent(this->pGlfwWindow);
       }
-      glClear(GL_COLOR_BUFFER_BIT);
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
       mPlainShader.begin();
 
       draw();
@@ -176,7 +242,7 @@ void GWindowMgr::run() {
   }
 }
 
-void GWindowMgr::init() {
+void GLWindow::init() {
   if (glfwInit() != GL_TRUE) {
     std::cerr << "Failed to initialize GLFW!" << std::endl;
     exit(EXIT_FAILURE);
@@ -189,7 +255,7 @@ void GWindowMgr::init() {
 #endif
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  this->pGlfwWindow = glfwWindowInit(title, width(), height());
+  this->pGlfwWindow = glfwWindowInit(mTitle, width(), height());
   Singleton::get().insertNewWindow(this);
   keyCallbackInit(this->pGlfwWindow, this->keyCallBacks);
   glInit();
@@ -199,4 +265,20 @@ void GWindowMgr::init() {
 #endif
 
   loadShaders();
+}
+
+PixelBuffer *GLWindow::getPixelBuffer() {
+  return mRectangles[0]->getPixelBuffer();
+}
+
+void GLWindow::setPixel(size_t x, size_t y, uint8_t color) {
+  mRectangles[0]->setPixel(x, y, color);
+}
+
+void GLWindow::setPixel(size_t x, size_t y, glm::u8vec4 color) {
+  mRectangles[0]->setPixel(x, y, color);
+}
+
+void GLWindow::setPixel(size_t x, size_t y, glm::u8vec3 color) {
+  mRectangles[0]->setPixel(x, y, color);
 }

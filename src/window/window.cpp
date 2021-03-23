@@ -4,23 +4,14 @@
 
 #include "window.h"
 
-Window::Window(std::string title, size_t width, size_t height) : title(title) {
-  mPixelBuffer = std::make_unique<PixelBuffer>(width, height);
-}
-
-Window::Window(std::string title, std::unique_ptr<PixelBuffer> pixelBuffer)
-    : title(title), mPixelBuffer(std::move(pixelBuffer)) {}
+Window::Window(std::string title, size_t width, size_t height)
+    : mTitle(title), mWidth(width), mHeight(height) {}
 
 void Window::draw() {
   for (const std::function<void()> &df : drawFunctors) {
     df();
   }
 }
-void Window::setPixelBuffer(std::unique_ptr<PixelBuffer> pixelBuffer) {
-  mPixelBuffer = std::move(pixelBuffer);
-}
-
-PixelBuffer *Window::getPixelBuffer() { return mPixelBuffer.get(); }
 
 void Window::insertDrawCallback(drawCallBack &db) {
   this->drawFunctors.push_back(db);
@@ -28,16 +19,4 @@ void Window::insertDrawCallback(drawCallBack &db) {
 
 const std::vector<drawCallBack> &Window::getDrawCallBacks() {
   return drawFunctors;
-}
-
-void Window::setPixel(size_t x, size_t y, uint8_t color) {
-  mPixelBuffer->setPixel(x, y, color);
-}
-
-void Window::setPixel(size_t x, size_t y, glm::u8vec4 color) {
-  mPixelBuffer->setPixel(x, y, color);
-}
-
-void Window::setPixel(size_t x, size_t y, glm::u8vec3 color) {
-  mPixelBuffer->setPixel(x, y, color);
 }

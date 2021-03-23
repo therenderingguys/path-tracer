@@ -51,7 +51,7 @@ void TriangleTest::init() {
 }
 
 int main(int argc, char *argv[]) {
-  GWindowMgr gWindow("Test");
+  GLWindow gWindow("Test");
   TriangleTest tt;
   drawCallBack func = [&tt]() { tt.draw(); };
   gWindow.insertDrawCallback(func);

@@ -6,7 +6,7 @@
 
 #ifndef __TEXTURE_H__
 #define __TEXTURE_H__
-#include "window/pixelBuffer.h"
+#include "pixelBuffer.h"
 #include <glad/glad.h>
 
 class Texture {

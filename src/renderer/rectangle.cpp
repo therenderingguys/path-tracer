@@ -7,7 +7,16 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+Rectangle::Rectangle(float width, float height) : Shape() {
+  glm::vec3 p1(0, 0, 0);
+  pbInit(p1, width, height);
+}
+
 Rectangle::Rectangle(const glm::vec3 &p1, float width, float height) : Shape() {
+  pbInit(p1, width, height);
+}
+
+void Rectangle::pbInit(const glm::vec3 &p1, float width, float height) {
   mPixelBuffer = std::make_unique<PixelBuffer>(width, height);
   Rectangle::initialize(p1, glm::vec3(p1.x + width, p1.y, 0),
                         glm::vec3(p1.x + width, p1.y - height, 0),
@@ -58,7 +67,7 @@ void Rectangle::storePoints(const glm::vec3 &p1, const glm::vec3 &p2,
   vertexAttributes[index++] = 0;
 }
 
-Rectangle::~Rectangle(void) { delete vertexAttributes; }
+Rectangle::~Rectangle(void) {}
 
 void Rectangle::render(int positionHandle, int modelHandle, int textureHandle) {
   // Bind texture
@@ -89,4 +98,18 @@ void Rectangle::setTexture(std::unique_ptr<Texture> texture) {
 
 void Rectangle::setPixelBuffer(std::unique_ptr<PixelBuffer> pb) {
   this->mPixelBuffer = std::move(pb);
+}
+
+PixelBuffer *Rectangle::getPixelBuffer() { return mPixelBuffer.get(); }
+
+void Rectangle::setPixel(size_t x, size_t y, uint8_t color) {
+  mPixelBuffer->setPixel(x, y, color);
+}
+
+void Rectangle::setPixel(size_t x, size_t y, glm::u8vec4 color) {
+  mPixelBuffer->setPixel(x, y, color);
+}
+
+void Rectangle::setPixel(size_t x, size_t y, glm::u8vec3 color) {
+  mPixelBuffer->setPixel(x, y, color);
 }
