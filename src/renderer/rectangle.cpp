@@ -31,17 +31,32 @@ void Rectangle::pbInit(const glm::vec3 &p1, float width, float height) {
 
 void Rectangle::initialize(const glm::vec3 &p1, const glm::vec3 &p2,
                            const glm::vec3 &p3, const glm::vec3 &p4) {
-  this->stride = 5 * sizeof(float);
-  this->vertsToDraw = 4;
+  this->stride = (Rectangle::textureCoord + Rectangle::dimentions) * sizeof(float);
+  this->vertsToDraw = Rectangle::verticies;
   this->vertexAttributes = new float[vertexSize];
   storePoints(p1, p2, p3, p4);
+  glBindVertexArray(VAO);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
   glBufferData(GL_ARRAY_BUFFER, vertexSize*sizeof(float), vertexAttributes, GL_STATIC_DRAW);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Rectangle::indices), indices, GL_STATIC_DRAW);
 
 
 }
 
 void Rectangle::storePoints(const glm::vec3 &p1, const glm::vec3 &p2,
+                            const glm::vec3 &p3, const glm::vec3 &p4) {
+  float vertices[] = {
+        // positions          // texture coords
+        -1.0f,  1.0f, 0.0f,   1.0f, 1.0f, // top right
+         1.0f,  1.0f, 0.0f,   1.0f, 0.0f, // bottom right
+         1.0f, -1.0f, 0.0f,   0.0f, 0.0f, // bottom left
+        -1.0f, -1.0f, 0.0f,   0.0f, 1.0f  // top left 
+    };
+    memcpy(vertexAttributes,vertices,sizeof(float)*vertexSize);
+}
+
+/*void Rectangle::storePoints(const glm::vec3 &p1, const glm::vec3 &p2,
                             const glm::vec3 &p3, const glm::vec3 &p4) {
   int index = 0;
   // Top Left
@@ -75,31 +90,23 @@ void Rectangle::storePoints(const glm::vec3 &p1, const glm::vec3 &p2,
 
   vertexAttributes[index++] = 0; // TODO Fix
   vertexAttributes[index++] = 0;
-}
+}*/
 
 Rectangle::~Rectangle(void) {}
 
-void Rectangle::render(int positionHandle, int modelHandle, int textureHandle) {
+void Rectangle::render(int positionHandle, int textureHandle) {
   // Bind texture
+  glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, mTexture->genTexture(*mPixelBuffer.get()));
-  glEnableVertexAttribArray(positionHandle);
-  glEnableVertexAttribArray(textureHandle);
-  glDisableVertexAttribArray(modelHandle);
   glVertexAttribPointer(positionHandle, 3, GL_FLOAT, GL_FALSE, stride,
-                        vertexAttributes);
+                        (void*)0);
+  glEnableVertexAttribArray(positionHandle);
   glVertexAttribPointer(textureHandle, 2, GL_FLOAT, GL_FALSE, stride,
-                        vertexAttributes + 3);
-  glDrawArrays(GL_QUADS, 0, vertsToDraw);
-}
+                        (void*)(3 * sizeof(float)));
+  glEnableVertexAttribArray(textureHandle);
 
-void Rectangle::render(int positionHandle, int modelHandle, int colorHandle,
-                       float *color) {
-
-  glEnableVertexAttribArray(positionHandle);
-  glUniform4fv(colorHandle, 1, color);
-  glVertexAttribPointer(positionHandle, 3, GL_FLOAT, GL_FALSE, stride,
-                        vertexAttributes);
-  glDrawArrays(GL_QUADS, 0, vertsToDraw);
+  glBindVertexArray(VAO);
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 void Rectangle::setTexture(std::unique_ptr<Texture> texture) {
@@ -111,6 +118,8 @@ void Rectangle::setPixelBuffer(std::unique_ptr<PixelBuffer> pb) {
 }
 
 PixelBuffer *Rectangle::getPixelBuffer() { return mPixelBuffer.get(); }
+
+Texture *Rectangle::getTexture() { return mTexture.get(); }
 
 void Rectangle::setPixel(size_t x, size_t y, uint8_t color) {
   mPixelBuffer->setPixel(x, y, color);

@@ -19,6 +19,7 @@ private:
 public:
   Texture() : mVisited(false), mTexture(0) {}
   GLuint genTexture(PixelBuffer &buffer);
+  inline GLuint getTexture() const { return mTexture; }
   virtual ~Texture() { glDeleteTextures(1, &this->mTexture); }
 };
 

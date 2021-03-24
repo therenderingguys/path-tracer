@@ -7,5 +7,5 @@ out vec2 u_texture;
 void main()
 {
     gl_Position = vec4(a_position, 1.0);
-    u_texture = a_texture;
+    u_texture = vec2(a_texture.x, a_texture.y);
 }

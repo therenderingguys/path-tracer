@@ -58,7 +58,15 @@ int main(int argc, char *argv[]) {
   gWindow.init();
   for (size_t y = 0; y < gWindow.height(); y++) {
     for (size_t x = 0; x < gWindow.width(); x++) {
-      gWindow.setPixel(x, y, glm::u8vec3(0, 0, 255));
+      if(x < gWindow.width()/ 2 && y < gWindow.height()/ 2) {
+        gWindow.setPixel(x, y, glm::u8vec3(127, 64, 255));
+      } else if (x < gWindow.width() / 2){
+        gWindow.setPixel(x, y, glm::u8vec3(0, 0, 255));
+      } else if (y < gWindow.height()/ 2) {
+        gWindow.setPixel(x, y, glm::u8vec3(255, 0, 0));
+      } else {
+        gWindow.setPixel(x, y, glm::u8vec3(0, 255, 0));
+      }
     }
   }
   // Warning tt.int() has to be called after the window init.

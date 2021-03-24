@@ -14,9 +14,6 @@ Shape::Shape(void)
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
         glGenBuffers(1, &EBO);
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
       }
 
 Shape::~Shape(void) {

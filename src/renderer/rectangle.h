@@ -17,16 +17,18 @@ class Rectangle : public Shape {
 public:
   static const unsigned int indices[];
   // 4 points in a quad, 2 texture coordinates, 3 for position
-  static const unsigned int vertexSize = 4 * (3 + 2);
+  static const unsigned int verticies = 4;
+  static const unsigned int dimentions = 3;
+  static const unsigned int textureCoord = 2;
+  static const unsigned int vertexSize = verticies * (dimentions + textureCoord);
   Rectangle(float width, float height);
   Rectangle(const glm::vec3 &p1, float width, float height);
-  void render(int positionHandle, int modelHandle, int textureHandle);
-  void render(int positionHandle, int modelHandle, int colorHandle,
-              float *color);
+  void render(int positionHandle, int textureHandle);
   virtual ~Rectangle(void);
   void setTexture(std::unique_ptr<Texture> texture);
   void setPixelBuffer(std::unique_ptr<PixelBuffer> pb);
   PixelBuffer *getPixelBuffer();
+  Texture *getTexture();
   size_t width() const { return mPixelBuffer->width(); }
   size_t height() const { return mPixelBuffer->height(); }
   void setPixel(size_t x, size_t y, uint8_t color);

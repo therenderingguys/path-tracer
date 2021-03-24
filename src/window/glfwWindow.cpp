@@ -159,17 +159,17 @@ void GLWindow::loadShaders() {
   int attempts = 0;
   while (attempts < 3) {
     try {
-      glEnable(GL_TEXTURE_2D);
+      //glEnable(GL_TEXTURE_2D);
       mPlainShader.loadShaders("shaders/uiShader.vert",
                                "shaders/uiShader.frag");
       mShaderProperties.init(mPlainShader);
       drawCallBack dfunc = [this]() {
-        this->mPlainShader.begin();
+        //this->mPlainShader.begin();
         for (unsigned int i = 0; i < this->mRectangles.size(); i++) {
-          mRectangles[i]->render(mShaderProperties.uiPositionHandle, -1,
+          mRectangles[i]->render(mShaderProperties.uiPositionHandle,
                                  mShaderProperties.uiTextureHandle);
         }
-        this->mPlainShader.end();
+        //this->mPlainShader.end();
       };
       //TODO setup the pixelBuffer
       insertDrawCallback(dfunc);
