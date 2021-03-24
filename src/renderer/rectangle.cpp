@@ -7,6 +7,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+const unsigned int Rectangle::indices[] = {
+        0, 1, 3, // first triangle
+        1, 2, 3  // second triangle
+};
+
 Rectangle::Rectangle(float width, float height) : Shape() {
   glm::vec3 p1(0, 0, 0);
   pbInit(p1, width, height);
@@ -28,8 +33,12 @@ void Rectangle::initialize(const glm::vec3 &p1, const glm::vec3 &p2,
                            const glm::vec3 &p3, const glm::vec3 &p4) {
   this->stride = 5 * sizeof(float);
   this->vertsToDraw = 4;
-  this->vertexAttributes = new float[4 * 5];
+  this->vertexAttributes = new float[vertexSize];
   storePoints(p1, p2, p3, p4);
+  glBufferData(GL_ARRAY_BUFFER, vertexSize*sizeof(float), vertexAttributes, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Rectangle::indices), indices, GL_STATIC_DRAW);
+
+
 }
 
 void Rectangle::storePoints(const glm::vec3 &p1, const glm::vec3 &p2,

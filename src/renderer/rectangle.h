@@ -15,6 +15,9 @@
 
 class Rectangle : public Shape {
 public:
+  static const unsigned int indices[];
+  // 4 points in a quad, 2 texture coordinates, 3 for position
+  static const unsigned int vertexSize = 4 * (3 + 2);
   Rectangle(float width, float height);
   Rectangle(const glm::vec3 &p1, float width, float height);
   void render(int positionHandle, int modelHandle, int textureHandle);

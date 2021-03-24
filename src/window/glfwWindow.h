@@ -20,8 +20,6 @@ struct ShaderProperties {
   int uiPositionHandle;
   int uiTextureHandle;
   int uiTextureSampler;
-  int uiColor;
-  int uicolorHandle;
   ShaderProperties();
   void init(Shader &uiShader);
 };

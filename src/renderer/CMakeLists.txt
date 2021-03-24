@@ -1,5 +1,4 @@
 set (SourceFiles
-     boundingBox.cpp
      rectangle.cpp
      renderer.cpp
      shader.cpp
@@ -9,7 +8,6 @@ set (SourceFiles
 )
 
 set(HeaderFiles
-    boundingBox.h
     rectangle.h
     renderer.h
     shader.h

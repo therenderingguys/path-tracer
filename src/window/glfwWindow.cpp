@@ -13,15 +13,13 @@
 #include "glfwWindow.h"
 
 ShaderProperties::ShaderProperties()
-    : uicolorHandle(0), uiColor(0), uiTextureSampler(0),
+    : uiTextureSampler(0),
       uiTextureHandle(0), uiPositionHandle(0) {}
 
 void ShaderProperties::init(Shader &uiShader) {
   uiPositionHandle = uiShader.getAttribLocation("a_position");
   uiTextureHandle = uiShader.getAttribLocation("a_texture");
-  uiColor = uiShader.getUniformLocation("a_color");
   uiTextureSampler = uiShader.getUniformLocation("u_texture");
-  uicolorHandle = uiShader.getUniformLocation("o_color");
 }
 
 struct GWindowMgr {
@@ -105,7 +103,7 @@ void GLWindow::windowResized(int width, int height) {
             glm::vec3(j, i, 0), glm::vec3(j + width / mLayout.Rows, i, 0),
             glm::vec3(j + width / mLayout.Rows, i + height / mLayout.Cols, 0),
             glm::vec3(j, i + height / mLayout.Cols, 0));
-        mRectangles[rectIndex]->getPixelBuffer()->resizeBuffer(width,height);
+        //mRectangles[rectIndex]->getPixelBuffer()->resizeBuffer(width,height);
       }
     }
   }
@@ -148,7 +146,6 @@ GLWindow::GLWindow(std::string title, int width, int height,
                    RectangleLayout layout)
     : Window(title, width, height), pGlfwWindow(nullptr), keyCallBacks(),
       mRectangles(), mPlainShader(), mShaderProperties(), mLayout(layout) {
-  mRectangles.push_back(std::make_unique<Rectangle>(width, height));
 }
 
 GLWindow::~GLWindow() {
@@ -162,7 +159,7 @@ void GLWindow::loadShaders() {
   int attempts = 0;
   while (attempts < 3) {
     try {
-      // glEnable(GL_TEXTURE_2D);
+      glEnable(GL_TEXTURE_2D);
       mPlainShader.loadShaders("shaders/uiShader.vert",
                                "shaders/uiShader.frag");
       mShaderProperties.init(mPlainShader);
@@ -259,6 +256,7 @@ void GLWindow::init() {
 #endif
 
   loadShaders();
+  mRectangles.push_back(std::make_unique<Rectangle>(width(), height()));
 }
 
 PixelBuffer *GLWindow::getPixelBuffer() {
