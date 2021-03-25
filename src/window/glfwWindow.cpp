@@ -13,8 +13,7 @@
 #include "glfwWindow.h"
 
 ShaderProperties::ShaderProperties()
-    : uiTextureSampler(0),
-      uiTextureHandle(0), uiPositionHandle(0) {}
+    : uiTextureSampler(0), uiTextureHandle(0), uiPositionHandle(0) {}
 
 void ShaderProperties::init(Shader &uiShader) {
   uiPositionHandle = uiShader.getAttribLocation("a_position");
@@ -100,10 +99,26 @@ void GLWindow::windowResized(int width, int height) {
     for (int i = 0; i < height; i += height / mLayout.Cols) {
       for (int j = 0; j < width; j += width / mLayout.Rows) {
         mRectangles[rectIndex]->storePoints(
-            glm::vec3(j, i, 0), glm::vec3(j + width / mLayout.Rows, i, 0),
-            glm::vec3(j + width / mLayout.Rows, i + height / mLayout.Cols, 0),
-            glm::vec3(j, i + height / mLayout.Cols, 0));
-        //mRectangles[rectIndex]->getPixelBuffer()->resizeBuffer(width,height);
+            Rectangle::toCartesian(j, i, width, height),
+            Rectangle::toCartesian(j + width / mLayout.Rows, i, width, height),
+            Rectangle::toCartesian(j + width / mLayout.Rows,
+                                   i + height / mLayout.Cols, width, height),
+            Rectangle::toCartesian(j, i + height / mLayout.Cols, width,
+                                   height));
+        mRectangles[rectIndex]->getPixelBuffer()->resizeBuffer(width, height);
+        for (size_t y = 0; y < height; y++) {
+          for (size_t x = 0; x < width; x++) {
+            if (x < width / 2 && y < height / 2) {
+              setPixel(x, y, glm::u8vec3(0, 0, 255));
+            } else if (x < width / 2) {
+              setPixel(x, y, glm::u8vec3(127, 64, 255));
+            } else if (y < height / 2) {
+              setPixel(x, y, glm::u8vec3(0, 255, 0));
+            } else {
+              setPixel(x, y, glm::u8vec3(255, 0, 0));
+            }
+          }
+        }
       }
     }
   }
@@ -145,8 +160,7 @@ void GLWindow::insertKeyCallback(keyCallBack &kb) {
 GLWindow::GLWindow(std::string title, int width, int height,
                    RectangleLayout layout)
     : Window(title, width, height), pGlfwWindow(nullptr), keyCallBacks(),
-      mRectangles(), mPlainShader(), mShaderProperties(), mLayout(layout) {
-}
+      mRectangles(), mPlainShader(), mShaderProperties(), mLayout(layout) {}
 
 GLWindow::~GLWindow() {
   if (pGlfwWindow) {
@@ -159,19 +173,17 @@ void GLWindow::loadShaders() {
   int attempts = 0;
   while (attempts < 3) {
     try {
-      //glEnable(GL_TEXTURE_2D);
+      // glEnable(GL_TEXTURE_2D);
       mPlainShader.loadShaders("shaders/uiShader.vert",
                                "shaders/uiShader.frag");
       mShaderProperties.init(mPlainShader);
       drawCallBack dfunc = [this]() {
-        //this->mPlainShader.begin();
         for (unsigned int i = 0; i < this->mRectangles.size(); i++) {
           mRectangles[i]->render(mShaderProperties.uiPositionHandle,
                                  mShaderProperties.uiTextureHandle);
         }
-        //this->mPlainShader.end();
       };
-      //TODO setup the pixelBuffer
+      // TODO setup the pixelBuffer
       insertDrawCallback(dfunc);
       return;
     } catch (std::runtime_error &error) {

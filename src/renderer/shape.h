@@ -18,7 +18,6 @@ public:
   int getVertsToDraw() { return vertsToDraw; }
   int getStride() { return stride; }
 
-
 protected:
   float *vertexAttributes;
   int vertsToDraw;

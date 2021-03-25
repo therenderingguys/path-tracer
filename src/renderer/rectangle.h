@@ -16,11 +16,13 @@
 class Rectangle : public Shape {
 public:
   static const unsigned int indices[];
+  static const unsigned int indicesCount;
   // 4 points in a quad, 2 texture coordinates, 3 for position
   static const unsigned int verticies = 4;
   static const unsigned int dimentions = 3;
   static const unsigned int textureCoord = 2;
-  static const unsigned int vertexSize = verticies * (dimentions + textureCoord);
+  static const unsigned int vertexSize =
+      verticies * (dimentions + textureCoord);
   Rectangle(float width, float height);
   Rectangle(const glm::vec3 &p1, float width, float height);
   void render(int positionHandle, int textureHandle);
@@ -36,6 +38,7 @@ public:
   void setPixel(size_t x, size_t y, glm::u8vec3 color);
   void storePoints(const glm::vec3 &p1, const glm::vec3 &p2,
                    const glm::vec3 &p3, const glm::vec3 &p4);
+  static glm::vec3 toCartesian(int i, int j, int width, int height);
 
 private:
   void pbInit(const glm::vec3 &p1, float width, float height);

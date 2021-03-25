@@ -9,12 +9,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 Shape::Shape(void)
-    : vertexAttributes(nullptr), vertsToDraw(0),
-      VAO(0), VBO(0), EBO(0), stride(0) {
-        glGenVertexArrays(1, &VAO);
-        glGenBuffers(1, &VBO);
-        glGenBuffers(1, &EBO);
-      }
+    : vertexAttributes(nullptr), vertsToDraw(0), VAO(0), VBO(0), EBO(0),
+      stride(0) {
+  glGenVertexArrays(1, &VAO);
+  glGenBuffers(1, &VBO);
+  glGenBuffers(1, &EBO);
+}
 
 Shape::~Shape(void) {
   if (vertexAttributes != nullptr) {

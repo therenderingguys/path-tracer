@@ -5,16 +5,15 @@
 #include "texture.h"
 
 GLuint Texture::genTexture(PixelBuffer &buf) {
-	if(!mVisited) {
-		this->mTexture = matToTexture(buf, GL_NEAREST, GL_NEAREST, GL_CLAMP);
-		mVisited = true;
-	} else {
-		glDeleteTextures(1, &this->mTexture);
-		this->mTexture = matToTexture(buf, GL_NEAREST, GL_NEAREST, GL_CLAMP);
-	}
-	return this->mTexture;
+  if (!mVisited) {
+    this->mTexture = matToTexture(buf, GL_NEAREST, GL_NEAREST, GL_CLAMP);
+    mVisited = true;
+  } else {
+    glDeleteTextures(1, &this->mTexture);
+    this->mTexture = matToTexture(buf, GL_NEAREST, GL_NEAREST, GL_CLAMP);
+  }
+  return this->mTexture;
 }
-
 
 GLuint Texture::matToTexture(PixelBuffer &buf, GLenum minFilter,
                              GLenum magFilter, GLenum wrapFilter) {
