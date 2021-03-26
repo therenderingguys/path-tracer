@@ -23,6 +23,17 @@ enum class ColorChannels : uint8_t {
   RGBA = 4,
 };
 
+enum class DataDepth : uint8_t {
+  PB_64F,
+  PB_32F,
+  PB_32U,
+  PB_32S,
+  PB_16U,
+  PB_16S,
+  PB_8U,
+  PB_8S,
+};
+
 class PixelBuffer {
 private:
   Size mSize;
@@ -42,6 +53,8 @@ public:
   size_t height() const { return mSize.Height; }
   size_t width() const { return mSize.Width; }
   size_t size() const { return mBuffer.size(); }
+  DataDepth depth() const { return DataDepth::PB_8U; }
+  inline ColorChannels channels() const { return mChannel; }
   inline uint8_t getColorChannels() const {
     return static_cast<uint8_t>(mChannel);
   }

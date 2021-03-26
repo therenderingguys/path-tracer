@@ -1,6 +1,5 @@
 add_library (PathTracer.WindowTest OBJECT
     windowTest.cpp
-    pixelBufferTest.cpp
     )
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
