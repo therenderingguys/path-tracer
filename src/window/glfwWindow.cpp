@@ -106,19 +106,6 @@ void GLWindow::windowResized(int width, int height) {
             Rectangle::toCartesian(j, i + height / mLayout.Cols, width,
                                    height));
         mRectangles[rectIndex]->getPixelBuffer()->resizeBuffer(width, height);
-        for (size_t y = 0; y < height; y++) {
-          for (size_t x = 0; x < width; x++) {
-            if (x < width / 2 && y < height / 2) {
-              setPixel(x, y, glm::u8vec3(0, 0, 255));
-            } else if (x < width / 2) {
-              setPixel(x, y, glm::u8vec3(127, 64, 255));
-            } else if (y < height / 2) {
-              setPixel(x, y, glm::u8vec3(0, 255, 0));
-            } else {
-              setPixel(x, y, glm::u8vec3(255, 0, 0));
-            }
-          }
-        }
       }
     }
   }
@@ -223,6 +210,7 @@ void GLWindow::run() {
       if (this->pGlfwWindow != glfwGetCurrentContext()) {
         glfwMakeContextCurrent(this->pGlfwWindow);
       }
+      glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
       mPlainShader.begin();
 

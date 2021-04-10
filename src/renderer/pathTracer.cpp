@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "renderer.h"
+#include "PathTracer.h"
 
-glm::vec3 Renderer::colorPixel(const unsigned int i, const unsigned int j,
+glm::vec3 PathTracer::colorPixel(const unsigned int i, const unsigned int j,
                                Scene &scene) {
   // maps float from one range to another
   auto map = [](float input, float oldMin, float oldMax, float newMin,
@@ -46,6 +46,7 @@ glm::vec3 Renderer::colorPixel(const unsigned int i, const unsigned int j,
    * components together to get the world space location of p.
    */
   glm::vec3 p = u * cam.getRight() + v * cam.getUp() + w * cam.direction();
+  p += cam.origin();
 
   /*
    * To get the ray that will intersect p from the camera origin we subtract the
@@ -60,20 +61,28 @@ glm::vec3 Renderer::colorPixel(const unsigned int i, const unsigned int j,
   return colorRay(ray, scene);
 }
 
-glm::vec3 Renderer::colorRay(const Ray &ray, Scene &scene) {
+glm::vec3 PathTracer::colorRay(const Ray &ray, Scene &scene) {
   Hit hit = scene.getRayIntersection(ray);
   return hit.color();
 }
 
-Renderer::Renderer(unsigned int width, unsigned int height)
+PathTracer::PathTracer(unsigned int width, unsigned int height)
     : mWidth(width), mHeight(height),
-      mAspectRatio(static_cast<float>(width) / static_cast<float>(width)) {}
+      mAspectRatio(static_cast<float>(width) / static_cast<float>(width)) {
 
-void Renderer::renderScene(unsigned int width, unsigned int height,
+  mDrawCallBack = [this]() { 
+    renderScene(mWidth, mHeight, *mScene.get());
+  };
+}
+
+void PathTracer::renderScene(unsigned int width, unsigned int height,
                            Scene &scene) {
   for (int i = 0; i < width; i++) {
     for (int j = 0; j < height; j++) {
-      glm::vec3 color = colorPixel(i, j, scene);
+      glm::vec3 color = colorPixel(i, j, scene) * 255.0f;
+      if (i == width-1 && j == height-1)
+        color = glm::vec3(255, 255, 255);
+      mPixelBuffer->setPixel(i, j, color);
     }
   }
 }
