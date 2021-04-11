@@ -5,7 +5,7 @@
 #include "pathTracer.h"
 
 glm::vec3 PathTracer::colorPixel(const unsigned int i, const unsigned int j,
-                               Scene &scene) {
+                                 Scene &scene) {
   // maps float from one range to another
   auto map = [](float input, float oldMin, float oldMax, float newMin,
                 float newMax) {
@@ -70,17 +70,15 @@ PathTracer::PathTracer(unsigned int width, unsigned int height)
     : mWidth(width), mHeight(height),
       mAspectRatio(static_cast<float>(width) / static_cast<float>(width)) {
 
-  mDrawCallBack = [this]() { 
-    renderScene(mWidth, mHeight, *mScene.get());
-  };
+  mDrawCallBack = [this]() { renderScene(mWidth, mHeight, *mScene.get()); };
 }
 
 void PathTracer::renderScene(unsigned int width, unsigned int height,
-                           Scene &scene) {
+                             Scene &scene) {
   for (int i = 0; i < width; i++) {
     for (int j = 0; j < height; j++) {
       glm::vec3 color = colorPixel(i, j, scene) * 255.0f;
-      if (i == width-1 && j == height-1)
+      if (i == width - 1 && j == height - 1)
         color = glm::vec3(255, 255, 255);
       mPixelBuffer->setPixel(i, j, color);
     }

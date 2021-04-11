@@ -28,12 +28,11 @@ void Rectangle::pbInit(const glm::vec3 &p1, float width, float height) {
   mPixelBuffer = std::make_unique<PixelBuffer>(width, height);
   mTexture = std::make_unique<Texture>();
 
-  glm::vec3 cp1 = Rectangle::toCartesian(p1.x + width, p1.y + height, width, height);
-  glm::vec3 cp2 = Rectangle::toCartesian(p1.x + width, p1.y, width, height);
-  glm::vec3 cp3 = Rectangle::toCartesian(p1.x, p1.y, width, height);
-  glm::vec3 cp4 = Rectangle::toCartesian(p1.x, p1.y + height, width, height);
-
-  Rectangle::initialize(cp1, cp2, cp3, cp4);
+  Rectangle::initialize(
+      Rectangle::toCartesian(p1.x + width, p1.y + height, width, height),
+      Rectangle::toCartesian(p1.x + width, p1.y, width, height),
+      Rectangle::toCartesian(p1.x, p1.y, width, height),
+      Rectangle::toCartesian(p1.x, p1.y + height, width, height));
 }
 
 void Rectangle::initialize(const glm::vec3 &p1, const glm::vec3 &p2,

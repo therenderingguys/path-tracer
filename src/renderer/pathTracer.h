@@ -7,14 +7,14 @@
 #ifndef __PATHTRACER_H__
 #define __PATHTRACER_H__
 
+#include <functional>
 #include <glm/glm.hpp>
 #include <math.h>
-#include <functional>
 #include <memory>
 
 #include "raycast/ray.h"
-#include "scene/scene.h"
 #include "renderer/pixelBuffer.h"
+#include "scene/scene.h"
 
 class PathTracer {
   typedef std::function<void()> drawCallBack;
