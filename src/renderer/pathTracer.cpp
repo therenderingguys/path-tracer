@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include "PathTracer.h"
+#include "pathTracer.h"
 
 glm::vec3 PathTracer::colorPixel(const unsigned int i, const unsigned int j,
                                Scene &scene) {
