@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 #include <math.h>
 #include <functional>
+#include <memory>
 
 #include "raycast/ray.h"
 #include "scene/scene.h"
