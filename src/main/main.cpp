@@ -34,9 +34,9 @@ int main(int argc, char *argv[]) {
   scene.addTriangle(brp, blp, cp, blue);
   scene.addTriangle(blp, ulp, cp, purple);
 
-  glm::vec3 pCenterUp(0, 1, 0);
-  glm::vec3 pRightBottom(1, -1, 0);
-  glm::vec3 pLeftBottom(-1, -1, 0);
+  glm::vec3 pCenterUp   (0,  1, -0.5);
+  glm::vec3 pRightBottom(2,  0, -1.5);
+  glm::vec3 pLeftBottom(-2,  0, -1.5);
   scene.addTriangle(pCenterUp, pRightBottom, pLeftBottom, green);
 
   GLWindow gWindow("Test");

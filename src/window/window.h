@@ -28,7 +28,7 @@ public:
   size_t width() const { return mWidth; }
   size_t height() const { return mHeight; }
   std::string Title() const { return mTitle; }
-  void insertDrawCallback(drawCallBack &db);
+  void insertDrawCallback(const drawCallBack &db);
   const std::vector<drawCallBack> &getDrawCallBacks();
 };
 

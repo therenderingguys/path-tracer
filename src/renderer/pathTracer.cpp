@@ -69,8 +69,6 @@ glm::vec3 PathTracer::colorRay(const Ray &ray, Scene &scene) {
 PathTracer::PathTracer(unsigned int width, unsigned int height)
     : mWidth(width), mHeight(height),
       mAspectRatio(static_cast<float>(width) / static_cast<float>(width)) {
-
-  mDrawCallBack = [this]() { renderScene(mWidth, mHeight, *mScene.get()); };
 }
 
 void PathTracer::renderScene(unsigned int width, unsigned int height,
