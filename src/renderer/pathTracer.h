@@ -24,11 +24,8 @@ private:
   std::unique_ptr<Scene> mScene;
   const float mAspectRatio;
   PixelBuffer *mPixelBuffer;
-  const drawCallBack &mDrawCallBack = [this]() {
-    renderScene(mWidth, mHeight, *mScene.get());
-  };
+  void draw();
 
-private:
   glm::vec3 colorPixel(const unsigned int i, const unsigned int j,
                        Scene &scene);
   glm::vec3 colorRay(const Ray &ray, Scene &scene);
@@ -41,8 +38,7 @@ public:
   void setPixelBuffer(PixelBuffer *pixelBuffer) { mPixelBuffer = pixelBuffer; };
 
   void setScene(Scene &scene) { mScene = std::make_unique<Scene>(scene); }
-
-  const drawCallBack &getDrawCallBack() const { return mDrawCallBack; }
+  drawCallBack getDrawCallBack();
 };
 
 #endif // __PATHTRACER_H__

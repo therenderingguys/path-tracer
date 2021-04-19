@@ -4,6 +4,12 @@
 
 #include "pathTracer.h"
 
+void PathTracer::draw() { renderScene(mWidth, mHeight, *mScene.get()); }
+
+PathTracer::drawCallBack PathTracer::getDrawCallBack() {
+  return [this]() { this->draw(); };
+}
+
 glm::vec3 PathTracer::colorPixel(const unsigned int i, const unsigned int j,
                                  Scene &scene) {
   // maps float from one range to another

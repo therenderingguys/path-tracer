@@ -18,7 +18,7 @@ cmake -B build
 msbuild build\PathTracer.sln -t:Build -p:Configuration=Release
 ```
 ## Docker Build & Run
-- quick build: `docker build -t path_tracer:latest -f Docker/quickbuild.Dockerfile .`
+- quick build: `docker build -t path_tracer_qk:latest -f Docker/quickbuild.Dockerfile .`
 - src build: `docker build -t path_tracer:latest -f Docker/sourcebuild.Dockerfile .`
 - run: `docker run  -e DISPLAY=host.docker.internal:0 --name pt_vm -it path_tracer:latest`
 
