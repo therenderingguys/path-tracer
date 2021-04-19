@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
   GLWindow gWindow("Test");
   gWindow.init();
 
-  PathTracer pathTracer(gWindow.width(), gWindow.height());
+  PathTracer pathTracer;
   pathTracer.setScene(scene);
 
   PixelBuffer *pb = gWindow.getPixelBuffer();

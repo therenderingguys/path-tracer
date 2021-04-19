@@ -20,20 +20,18 @@ class PathTracer {
   typedef std::function<void()> drawCallBack;
 
 private:
-  const unsigned int mWidth, mHeight;
   std::unique_ptr<Scene> mScene;
   const float mAspectRatio;
   PixelBuffer *mPixelBuffer;
   void draw();
 
-  glm::vec3 colorPixel(const unsigned int i, const unsigned int j,
-                       Scene &scene);
-  glm::vec3 colorRay(const Ray &ray, Scene &scene);
+  glm::vec3 colorPixel(const unsigned int i, const unsigned int j);
+  glm::vec3 colorRay(const Ray &ray);
 
 public:
-  PathTracer(unsigned int width, unsigned int height);
+  PathTracer();
 
-  void renderScene(unsigned int width, unsigned int height, Scene &scene);
+  void renderScene();
 
   void setPixelBuffer(PixelBuffer *pixelBuffer) { mPixelBuffer = pixelBuffer; };
 

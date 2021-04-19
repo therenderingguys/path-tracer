@@ -4,14 +4,13 @@
 
 #include "pathTracer.h"
 
-void PathTracer::draw() { renderScene(mWidth, mHeight, *mScene.get()); }
+void PathTracer::draw() { renderScene(); }
 
 PathTracer::drawCallBack PathTracer::getDrawCallBack() {
   return [this]() { this->draw(); };
 }
 
-glm::vec3 PathTracer::colorPixel(const unsigned int i, const unsigned int j,
-                                 Scene &scene) {
+glm::vec3 PathTracer::colorPixel(const unsigned int i, const unsigned int j) {
   // maps float from one range to another
   auto map = [](float input, float oldMin, float oldMax, float newMin,
                 float newMax) {
@@ -20,13 +19,15 @@ glm::vec3 PathTracer::colorPixel(const unsigned int i, const unsigned int j,
     return ((input - oldMin) * newRange / oldRange) + newMin;
   };
 
-  Camera &cam = scene.getCamera();
+  Camera &cam = mScene->getCamera();
   float fov = cam.getFOV();
 
   // u and v are the coordiantes along the view plane that the pixel coordinates
   // (i and j) map to.
-  float u = map((static_cast<float>(i)) + 0.5f, 0, mWidth, -1, 1);
-  float v = map((static_cast<float>(j)) + 0.5f, 0, mHeight, 1, -1);
+  float u =
+      map((static_cast<float>(i)) + 0.5f, 0, mPixelBuffer->width(), -1, 1);
+  float v =
+      map((static_cast<float>(j)) + 0.5f, 0, mPixelBuffer->height(), 1, -1);
 
   // w is the distance the cameria is from th view plane which is defined by the
   // camera's field of view
@@ -64,24 +65,22 @@ glm::vec3 PathTracer::colorPixel(const unsigned int i, const unsigned int j,
   glm::vec3 rayDir = p - rayOrg;
   Ray ray(rayOrg, rayDir);
 
-  return colorRay(ray, scene);
+  return colorRay(ray);
 }
 
-glm::vec3 PathTracer::colorRay(const Ray &ray, Scene &scene) {
-  Hit hit = scene.getRayIntersection(ray);
+glm::vec3 PathTracer::colorRay(const Ray &ray) {
+  Hit hit = mScene->getRayIntersection(ray);
   return hit.color();
 }
 
-PathTracer::PathTracer(unsigned int width, unsigned int height)
-    : mWidth(width), mHeight(height),
-      mAspectRatio(static_cast<float>(width) / static_cast<float>(width)) {}
+PathTracer::PathTracer()
+    : mScene(nullptr), mAspectRatio(1.0f), mPixelBuffer(nullptr) {}
 
-void PathTracer::renderScene(unsigned int width, unsigned int height,
-                             Scene &scene) {
-  for (int i = 0; i < width; i++) {
-    for (int j = 0; j < height; j++) {
-      glm::vec3 color = colorPixel(i, j, scene) * 255.0f;
-      if (i == width - 1 && j == height - 1)
+void PathTracer::renderScene() {
+  for (int i = 0; i < mPixelBuffer->width(); i++) {
+    for (int j = 0; j < mPixelBuffer->height(); j++) {
+      glm::vec3 color = colorPixel(i, j) * 255.0f;
+      if (i == mPixelBuffer->width() - 1 && j == mPixelBuffer->height() - 1)
         color = glm::vec3(255, 255, 255);
       mPixelBuffer->setPixel(i, j, color);
     }
