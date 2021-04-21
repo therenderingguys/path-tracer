@@ -1,6 +1,6 @@
 set (SourceFiles
      rectangle.cpp
-     renderer.cpp
+     pathTracer.cpp
      shader.cpp
      shape.cpp
      texture.cpp
@@ -9,7 +9,7 @@ set (SourceFiles
 
 set(HeaderFiles
     rectangle.h
-    renderer.h
+    pathTracer.h
     shader.h
     shape.h
     texture.h

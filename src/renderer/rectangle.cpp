@@ -27,10 +27,11 @@ Rectangle::Rectangle(const glm::vec3 &p1, float width, float height) : Shape() {
 void Rectangle::pbInit(const glm::vec3 &p1, float width, float height) {
   mPixelBuffer = std::make_unique<PixelBuffer>(width, height);
   mTexture = std::make_unique<Texture>();
+
   Rectangle::initialize(
-      Rectangle::toCartesian(p1.x, p1.y, width, height),
-      Rectangle::toCartesian(p1.x + width, p1.y, width, height),
       Rectangle::toCartesian(p1.x + width, p1.y + height, width, height),
+      Rectangle::toCartesian(p1.x + width, p1.y, width, height),
+      Rectangle::toCartesian(p1.x, p1.y, width, height),
       Rectangle::toCartesian(p1.x, p1.y + height, width, height));
 }
 
@@ -58,7 +59,7 @@ glm::vec3 Rectangle::toCartesian(int i, int j, int width, int height) {
 void Rectangle::storePoints(const glm::vec3 &p1, const glm::vec3 &p2,
                             const glm::vec3 &p3, const glm::vec3 &p4) {
   int index = 0;
-  // Top Left
+  // Bottom Right
   vertexAttributes[index++] = p1.x;
   vertexAttributes[index++] = p1.y;
   vertexAttributes[index++] = p1.z;
@@ -74,7 +75,7 @@ void Rectangle::storePoints(const glm::vec3 &p1, const glm::vec3 &p2,
   vertexAttributes[index++] = 1;
   vertexAttributes[index++] = 0;
 
-  // Bottom Right
+  // Top Left
   vertexAttributes[index++] = p3.x;
   vertexAttributes[index++] = p3.y;
   vertexAttributes[index++] = p3.z;

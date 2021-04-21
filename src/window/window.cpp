@@ -13,7 +13,7 @@ void Window::draw() {
   }
 }
 
-void Window::insertDrawCallback(drawCallBack &db) {
+void Window::insertDrawCallback(const drawCallBack db) {
   this->drawFunctors.push_back(db);
 }
 
