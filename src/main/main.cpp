@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
   gWindow.init();
 
   PathTracer pathTracer;
-  pathTracer.setScene(scene);
+  pathTracer.setScene(std::make_unique<Scene>(scene));
 
   PixelBuffer *pb = gWindow.getPixelBuffer();
   pathTracer.setPixelBuffer(pb);

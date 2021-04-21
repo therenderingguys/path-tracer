@@ -35,7 +35,7 @@ public:
 
   void setPixelBuffer(PixelBuffer *pixelBuffer) { mPixelBuffer = pixelBuffer; };
 
-  void setScene(Scene &scene) { mScene = std::make_unique<Scene>(scene); }
+  void setScene(std::unique_ptr<Scene> scene) { mScene = std::move(scene); }
   drawCallBack getDrawCallBack();
 };
 
