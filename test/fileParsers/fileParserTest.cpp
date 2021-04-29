@@ -13,6 +13,48 @@
 #include "renderer/pathTracer.h"
 #include "scene/scene.h"
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+std::string getDirectory() { return ""; }
+#elif __APPLE__
+#include <mach-o/dyld.h>
+std::string getDirectory() {
+  uint32_t bufSize = PATH_MAX + 1;
+  char dirNameBuffer[bufSize];
+  if (_NSGetExecutablePath(dirNameBuffer, &bufSize) == 0) {
+    // Buffer size is too small.
+    std::string fullpath(dirNameBuffer);
+    int beginIdx = fullpath.rfind('/');
+    std::string dirPath = fullpath.substr(0, beginIdx + 1);
+    return dirPath;
+  }
+  return "";
+}
+#elif __linux__
+#include <unistd.h>
+std::string getDirectory() {
+  char abs_path[1024];
+  int cnt = readlink("/proc/self/exe", abs_path, 1024);
+  // Get the absolute path of the executable program
+  if (cnt < 0 || cnt >= 1024) {
+    return "";
+  }
+
+  // The last '/' is followed by the executable name, remove devel/lib/m100/exe,
+  // and only keep the previous part of the path.
+  for (int i = cnt; i >= 0; --i) {
+    if (abs_path[i] == '/') {
+      abs_path[i + 1] = '\0';
+      break;
+    }
+  }
+
+  std::string path(abs_path);
+
+  return path;
+}
+
+#endif
+
 // Note: We really just want to do a file hash here, but there is no built in
 // library.
 // TODO find a portable hashing library.
@@ -90,33 +132,33 @@ void ReadObjToPixelBuffer(std::string filename,
   ImageExport::exportAsPPM(outFileName, &pb);
 }
 
-TEST_CASE("square Obj file Parse test", "[fileParsers pixelBuffer]") {
-
-  ReadObjToPixelBuffer("objFiles/square.obj");
-  REQUIRE(compare_files("sln/square.ppm", "test.ppm"));
+TEST_CASE("square Obj file Parse test", "[fileParsers][pixelBuffer]") {
+  INFO(getDirectory());
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/square.obj");
+  REQUIRE(compare_files(getDirectory() + "sln/square.ppm", "test.ppm"));
 }
 
-TEST_CASE("cube obj file parser test", "[fileParsers pixelBuffer]") {
-  ReadObjToPixelBuffer("objFiles/cube.obj");
-  REQUIRE(compare_files("sln/cube.ppm", "test.ppm"));
+TEST_CASE("cube obj file parser test", "[fileParsers][pixelBuffer]") {
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/cube.obj");
+  REQUIRE(compare_files(getDirectory() + "sln/cube.ppm", "test.ppm"));
 }
 
-TEST_CASE("head obj file parser test", "[fileParsers pixelBuffer]") {
-  ReadObjToPixelBuffer("objFiles/african_head.obj");
-  REQUIRE(compare_files("sln/head.ppm", "test.ppm"));
+TEST_CASE("head obj file parser test", "[fileParsers][pixelBuffer]") {
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/african_head.obj");
+  REQUIRE(compare_files(getDirectory() + "sln/head.ppm", "test.ppm"));
 }
 
-TEST_CASE("monkey obj file parser test", "[fileParsers pixelBuffer]") {
-  ReadObjToPixelBuffer("objFiles/monkey.obj");
-  REQUIRE(compare_files("sln/monkey.ppm", "test.ppm"));
+TEST_CASE("monkey obj file parser test", "[fileParsers][pixelBuffer]") {
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/monkey.obj");
+  REQUIRE(compare_files(getDirectory() + "sln/monkey.ppm", "test.ppm"));
 }
 
-TEST_CASE("diablo obj file parser test", "[fileParsers pixelBuffer]") {
-  ReadObjToPixelBuffer("objFiles/diablo3_pose.obj");
-  REQUIRE(compare_files("sln/diablo.ppm", "test.ppm"));
+TEST_CASE("diablo obj file parser test", "[fileParsers][pixelBuffer]") {
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/diablo3_pose.obj");
+  REQUIRE(compare_files(getDirectory() + "sln/diablo.ppm", "test.ppm"));
 }
 
-TEST_CASE("Pyramid obj file parser test", "[fileParsers pixelBuffer]") {
-  ReadObjToPixelBuffer("objFiles/pyramid.obj");
-  REQUIRE(compare_files("sln/pyramid.ppm", "test.ppm"));
+TEST_CASE("Pyramid obj file parser test", "[fileParsers][pixelBuffer]") {
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/pyramid.obj");
+  REQUIRE(compare_files(getDirectory() + "sln/pyramid.ppm", "test.ppm"));
 }
