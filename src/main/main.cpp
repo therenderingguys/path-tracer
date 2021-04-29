@@ -2,17 +2,17 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+#include "fileParsers/model.h"
 #include "renderer/pathTracer.h"
 #include "scene/scene.h"
 #include "window/glfwWindow.h"
-#include "fileParsers/model.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
 
 int main(int argc, char *argv[]) {
-  if( argc != 2) {
-        std::cout << "usage ./exec <wavefront_obj_file>.obj" << std::endl;
-        return 0;
+  if (argc != 2) {
+    std::cout << "usage ./exec <wavefront_obj_file>.obj" << std::endl;
+    return 0;
   }
   Model model(argv[1]);
 

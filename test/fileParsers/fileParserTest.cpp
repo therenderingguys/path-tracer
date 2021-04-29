@@ -2,36 +2,41 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-#include <catch2/catch.hpp>
-#include <glm/glm.hpp>
-#include <fstream>
 #include <algorithm>
+#include <catch2/catch.hpp>
+#include <fstream>
+#include <glm/glm.hpp>
 
 #include "fileParsers/imageExporter.h"
 #include "fileParsers/model.h"
 #include "raycast/camera.h"
-#include "scene/scene.h"
 #include "renderer/pathTracer.h"
+#include "scene/scene.h"
 
-//Note: We really just want to do a file hash here, but there is no built in library.
+// Note: We really just want to do a file hash here, but there is no built in
+// library.
 // TODO find a portable hashing library.
-bool compare_files(const std::string& filename1, const std::string& filename2)
-{
-    std::ifstream file1(filename1, std::ifstream::ate | std::ifstream::binary); //open file at the end
-    std::ifstream file2(filename2, std::ifstream::ate | std::ifstream::binary); //open file at the end
-    const std::ifstream::pos_type fileSize = file1.tellg();
+bool compare_files(const std::string &filename1, const std::string &filename2) {
+  std::ifstream file1(filename1,
+                      std::ifstream::ate |
+                          std::ifstream::binary); // open file at the end
+  std::ifstream file2(filename2,
+                      std::ifstream::ate |
+                          std::ifstream::binary); // open file at the end
+  const std::ifstream::pos_type fileSize = file1.tellg();
 
-    if (fileSize != file2.tellg()) {
-        return false; //different file size
-    }
+  if (fileSize != file2.tellg()) {
+    return false; // different file size
+  }
 
-    file1.seekg(0); //rewind
-    file2.seekg(0); //rewind
+  file1.seekg(0); // rewind
+  file2.seekg(0); // rewind
 
-    std::istreambuf_iterator<char> begin1(file1);
-    std::istreambuf_iterator<char> begin2(file2);
+  std::istreambuf_iterator<char> begin1(file1);
+  std::istreambuf_iterator<char> begin2(file2);
 
-    return std::equal(begin1,std::istreambuf_iterator<char>(),begin2); //Second argument is end-of-range iterator
+  return std::equal(begin1, std::istreambuf_iterator<char>(),
+                    begin2); // Second argument is end-of-range iterator
 }
 
 glm::vec3 getColor(int index) {
@@ -55,7 +60,8 @@ glm::vec3 getColor(int index) {
   return gray;
 }
 
-void ReadObjToPixelBuffer(std::string filename, std::string outFileName="test.ppm") {
+void ReadObjToPixelBuffer(std::string filename,
+                          std::string outFileName = "test.ppm") {
   Model model(filename.c_str());
 
   glm::vec3 camOrign({0, 0, 2});
@@ -96,21 +102,21 @@ TEST_CASE("cube obj file parser test", "[fileParsers pixelBuffer]") {
 }
 
 TEST_CASE("head obj file parser test", "[fileParsers pixelBuffer]") {
-  ReadObjToPixelBuffer("objFiles/african_head.obj");  
+  ReadObjToPixelBuffer("objFiles/african_head.obj");
   REQUIRE(compare_files("sln/head.ppm", "test.ppm"));
 }
 
 TEST_CASE("monkey obj file parser test", "[fileParsers pixelBuffer]") {
-   ReadObjToPixelBuffer("objFiles/monkey.obj"); 
-   REQUIRE(compare_files("sln/monkey.ppm", "test.ppm"));
+  ReadObjToPixelBuffer("objFiles/monkey.obj");
+  REQUIRE(compare_files("sln/monkey.ppm", "test.ppm"));
 }
 
 TEST_CASE("diablo obj file parser test", "[fileParsers pixelBuffer]") {
-   ReadObjToPixelBuffer("objFiles/diablo3_pose.obj"); 
-   REQUIRE(compare_files("sln/diablo.ppm", "test.ppm"));
+  ReadObjToPixelBuffer("objFiles/diablo3_pose.obj");
+  REQUIRE(compare_files("sln/diablo.ppm", "test.ppm"));
 }
 
 TEST_CASE("Pyramid obj file parser test", "[fileParsers pixelBuffer]") {
-   ReadObjToPixelBuffer("objFiles/pyramid.obj");  
-   REQUIRE(compare_files("sln/pyramid.ppm", "test.ppm"));
+  ReadObjToPixelBuffer("objFiles/pyramid.obj");
+  REQUIRE(compare_files("sln/pyramid.ppm", "test.ppm"));
 }

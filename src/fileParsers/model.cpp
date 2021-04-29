@@ -8,8 +8,7 @@
 #include <string>
 #include <vector>
 
-void Model::singlSlashFaceFormat(std::istringstream &iss,
-                                  std::vector<int> &f) {
+void Model::singlSlashFaceFormat(std::istringstream &iss, std::vector<int> &f) {
   if (iss.str().find("/") == std::string::npos) {
     return;
   }
@@ -62,7 +61,7 @@ Model::Model(const char *filename) : mVerts(), mFaces() {
       doubleSlashFaceFormat(iss, f);
       singlSlashFaceFormat(iss, f);
       spaceDelimitedFormat(iss, f);
-     
+
       mFaces.push_back(f);
     }
   }

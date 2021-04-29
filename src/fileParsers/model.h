@@ -6,16 +6,19 @@
 #define __MODEL_H__
 
 #include <glm/glm.hpp>
-#include <vector>
 #include <sstream>
+#include <vector>
 
 class Model {
 private:
   std::vector<glm::vec3> mVerts;
   std::vector<std::vector<int>> mFaces;
-  static void doubleSlashFaceFormat(std::istringstream &iss, std::vector<int> &f);
-  static void singlSlashFaceFormat(std::istringstream &iss, std::vector<int> &f);
-  static void spaceDelimitedFormat(std::istringstream &iss, std::vector<int> &f);
+  static void doubleSlashFaceFormat(std::istringstream &iss,
+                                    std::vector<int> &f);
+  static void singlSlashFaceFormat(std::istringstream &iss,
+                                   std::vector<int> &f);
+  static void spaceDelimitedFormat(std::istringstream &iss,
+                                   std::vector<int> &f);
 
 public:
   Model(const char *filename);

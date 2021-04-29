@@ -8,10 +8,11 @@
 #include "renderer/pixelBuffer.h"
 
 class ImageExport {
-    private:
-        ImageExport() = delete;
-    public:
-    static void exportAsPPM(std::string fileName, PixelBuffer* pb);
+private:
+  ImageExport() = delete;
+
+public:
+  static void exportAsPPM(std::string fileName, PixelBuffer *pb);
 };
 
 #endif //__IMAGE_EXPORTER_H__
