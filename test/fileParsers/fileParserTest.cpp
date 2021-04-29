@@ -13,8 +13,22 @@
 #include "renderer/pathTracer.h"
 #include "scene/scene.h"
 
+// Note: I hate this code. it is only here b\c There is no way in
+// std::filesystem to know the binary directory, just the working dir. Also
+// std::filesystem refuses to make its way to AppleClang. Alternative is to take
+// a dependency on Boost, which I refuse to do.
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-std::string getDirectory() { return ""; }
+#include <Windows.h>
+std::string getDirectory() {
+  char buffer[MAX_PATH];
+  GetModuleFileNameA(nullptr, buffer, MAX_PATH);
+  std::string fullpath(buffer);
+  size_t beginIdx = fullpath.rfind('\\');
+  std::string dirPath = fullpath.substr(0, beginIdx);
+  beginIdx = dirPath.rfind('\\');
+  dirPath = dirPath.substr(0, beginIdx + 1);
+  return dirPath;
+}
 #elif __APPLE__
 #include <mach-o/dyld.h>
 std::string getDirectory() {
@@ -133,7 +147,6 @@ void ReadObjToPixelBuffer(std::string filename,
 }
 
 TEST_CASE("square Obj file Parse test", "[fileParsers][pixelBuffer]") {
-  INFO(getDirectory());
   ReadObjToPixelBuffer(getDirectory() + "objFiles/square.obj");
   REQUIRE(compare_files(getDirectory() + "sln/square.ppm", "test.ppm"));
 }
