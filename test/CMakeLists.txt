@@ -16,7 +16,8 @@ if(NOT ${GLM_FOUND})
   include_directories(${CMAKE_SOURCE_DIR}/packages/glm)
 endif()
 
-add_executable(${PROJECT_NAME} 
+add_executable(${PROJECT_NAME}
+               $<TARGET_OBJECTS:PathTracer.FileParserTest>
                $<TARGET_OBJECTS:PathTracer.RayCastTest>
                $<TARGET_OBJECTS:PathTracer.SceneTest>
                $<TARGET_OBJECTS:PathTracer.RendererTest>
@@ -27,6 +28,8 @@ add_executable(${PROJECT_NAME}
 target_link_libraries (${PROJECT_NAME}
   PathTracer
 )
+
+add_subdirectory(fileParsers)
 add_subdirectory (raycast)
 add_subdirectory (renderer)
 add_subdirectory (scene)

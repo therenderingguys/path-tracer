@@ -1,8 +1,10 @@
 set (SourceFiles
+     imageExporter.cpp
      model.cpp
 )
 
 set(HeaderFiles
+    imageExporter.h
     model.h
 )
 
