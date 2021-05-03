@@ -53,6 +53,7 @@ endif()
 
 add_library (${PROJECT_NAME} STATIC
   PathTracerStatic.cpp
+  $<TARGET_OBJECTS:PathTracer.FileParsers>
   $<TARGET_OBJECTS:PathTracer.RayCast>
   $<TARGET_OBJECTS:PathTracer.Renderer>
   $<TARGET_OBJECTS:PathTracer.Scene>
@@ -65,6 +66,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${GL_LIBS})
 target_include_directories(${PROJECT_NAME}
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
   # Add include_directories here
+  fileParsers
   raycast
   renderer
   scene
@@ -72,6 +74,7 @@ target_include_directories(${PROJECT_NAME}
 )
 
 add_subdirectory(main)
+add_subdirectory(fileParsers)
 add_subdirectory(raycast)
 add_subdirectory (renderer)
 add_subdirectory(scene)

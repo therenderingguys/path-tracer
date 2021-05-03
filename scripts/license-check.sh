@@ -18,8 +18,8 @@ exit_if_error() {
 ~/go/bin/addlicense -check src
 exit_if_error $? "license check failed in src."
 
-~/go/bin/addlicense -check plugins
-exit_if_error $? "license check failed in plugins."
+~/go/bin/addlicense -check test
+exit_if_error $? "license check failed in test."
 
 echo "license check successfully exited!"
 exit 0
