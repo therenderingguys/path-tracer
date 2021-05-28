@@ -28,8 +28,8 @@ public:
   void render(int positionHandle, int textureHandle);
   virtual ~Rectangle(void);
   void setTexture(std::unique_ptr<Texture> texture);
-  void setPixelBuffer(std::unique_ptr<PixelBuffer> pb);
-  PixelBuffer *getPixelBuffer();
+  void setPixelBuffer(std::shared_ptr<PixelBuffer> pb);
+  std::shared_ptr<PixelBuffer> getPixelBuffer();
   Texture *getTexture();
   size_t width() const { return mPixelBuffer->width(); }
   size_t height() const { return mPixelBuffer->height(); }
@@ -45,7 +45,7 @@ private:
   void initialize(const glm::vec3 &p1, const glm::vec3 &p2, const glm::vec3 &p3,
                   const glm::vec3 &p4);
   std::unique_ptr<Texture> mTexture;
-  std::unique_ptr<PixelBuffer> mPixelBuffer;
+  std::shared_ptr<PixelBuffer> mPixelBuffer;
 };
 
 #endif //__RECTANGLE_H__

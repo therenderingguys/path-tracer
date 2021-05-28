@@ -80,9 +80,12 @@ void PathTracer::renderScene() {
   for (int i = 0; i < mPixelBuffer->width(); i++) {
     for (int j = 0; j < mPixelBuffer->height(); j++) {
       glm::vec3 color = colorPixel(i, j) * 255.0f;
-      if (i == mPixelBuffer->width() - 1 && j == mPixelBuffer->height() - 1)
-        color = glm::vec3(255, 255, 255);
       mPixelBuffer->setPixel(i, j, color);
     }
   }
+}
+
+void PathTracer::setPixelBuffer(std::shared_ptr<PixelBuffer> pixelBuffer) {
+  mPixelBuffer = pixelBuffer;
+  mAspectRatio = mPixelBuffer->width() / mPixelBuffer->height();
 }

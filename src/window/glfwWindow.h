@@ -50,7 +50,7 @@ public:
   virtual void init() final;
   virtual void run() final;
   virtual ~GLWindow();
-  PixelBuffer *getPixelBuffer();
+  std::shared_ptr<PixelBuffer> getPixelBuffer();
   void setPixel(size_t x, size_t y, uint8_t color);
   void setPixel(size_t x, size_t y, glm::u8vec4 color);
   void setPixel(size_t x, size_t y, glm::u8vec3 color);
