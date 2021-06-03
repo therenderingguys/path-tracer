@@ -114,11 +114,13 @@ void Rectangle::setTexture(std::unique_ptr<Texture> texture) {
   this->mTexture = std::move(texture);
 }
 
-void Rectangle::setPixelBuffer(std::unique_ptr<PixelBuffer> pb) {
-  this->mPixelBuffer = std::move(pb);
+void Rectangle::setPixelBuffer(std::shared_ptr<PixelBuffer> pb) {
+  this->mPixelBuffer = pb;
 }
 
-PixelBuffer *Rectangle::getPixelBuffer() { return mPixelBuffer.get(); }
+std::shared_ptr<PixelBuffer> Rectangle::getPixelBuffer() {
+  return mPixelBuffer;
+}
 
 Texture *Rectangle::getTexture() { return mTexture.get(); }
 

@@ -21,8 +21,8 @@ class PathTracer {
 
 private:
   std::unique_ptr<Scene> mScene;
-  const float mAspectRatio;
-  PixelBuffer *mPixelBuffer;
+  float mAspectRatio;
+  std::shared_ptr<PixelBuffer> mPixelBuffer;
   void draw();
 
   glm::vec3 colorPixel(const unsigned int i, const unsigned int j);
@@ -33,7 +33,7 @@ public:
 
   void renderScene();
 
-  void setPixelBuffer(PixelBuffer *pixelBuffer) { mPixelBuffer = pixelBuffer; };
+  void setPixelBuffer(std::shared_ptr<PixelBuffer> pixelBuffer);
 
   void setScene(std::unique_ptr<Scene> scene) { mScene = std::move(scene); }
   drawCallBack getDrawCallBack();

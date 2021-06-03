@@ -140,38 +140,44 @@ void ReadObjToPixelBuffer(std::string filename,
 
   PathTracer pathTracer;
   pathTracer.setScene(std::make_unique<Scene>(scene));
-  PixelBuffer pb(320, 240, ColorChannels::RGB);
-  pathTracer.setPixelBuffer(&pb);
+  std::shared_ptr<PixelBuffer> pb =
+      std::make_shared<PixelBuffer>(320, 240, ColorChannels::RGB);
+  pathTracer.setPixelBuffer(pb);
   pathTracer.renderScene();
-  ImageExport::exportAsPPM(outFileName, &pb);
+  ImageExport::exportAsPPM(outFileName, pb.get());
 }
 
 TEST_CASE("square Obj file Parse test", "[fileParsers][pixelBuffer]") {
-  ReadObjToPixelBuffer(getDirectory() + "objFiles/square.obj");
-  REQUIRE(compare_files(getDirectory() + "sln/square.ppm", "test.ppm"));
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/square.obj",
+                       "squareTest.ppm");
+  REQUIRE(compare_files(getDirectory() + "sln/square.ppm", "squareTest.ppm"));
 }
 
 TEST_CASE("cube obj file parser test", "[fileParsers][pixelBuffer]") {
-  ReadObjToPixelBuffer(getDirectory() + "objFiles/cube.obj");
-  REQUIRE(compare_files(getDirectory() + "sln/cube.ppm", "test.ppm"));
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/cube.obj", "cubeTest.ppm");
+  REQUIRE(compare_files(getDirectory() + "sln/cube.ppm", "cubeTest.ppm"));
 }
 
 TEST_CASE("head obj file parser test", "[fileParsers][pixelBuffer]") {
-  ReadObjToPixelBuffer(getDirectory() + "objFiles/african_head.obj");
-  REQUIRE(compare_files(getDirectory() + "sln/head.ppm", "test.ppm"));
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/african_head.obj",
+                       "headTest.ppm");
+  REQUIRE(compare_files(getDirectory() + "sln/head.ppm", "headTest.ppm"));
 }
 
 TEST_CASE("monkey obj file parser test", "[fileParsers][pixelBuffer]") {
-  ReadObjToPixelBuffer(getDirectory() + "objFiles/monkey.obj");
-  REQUIRE(compare_files(getDirectory() + "sln/monkey.ppm", "test.ppm"));
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/monkey.obj",
+                       "monkeyTest.ppm");
+  REQUIRE(compare_files(getDirectory() + "sln/monkey.ppm", "monkeyTest.ppm"));
 }
 
 TEST_CASE("diablo obj file parser test", "[fileParsers][pixelBuffer]") {
-  ReadObjToPixelBuffer(getDirectory() + "objFiles/diablo3_pose.obj");
-  REQUIRE(compare_files(getDirectory() + "sln/diablo.ppm", "test.ppm"));
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/diablo3_pose.obj",
+                       "diabloTest.ppm");
+  REQUIRE(compare_files(getDirectory() + "sln/diablo.ppm", "diabloTest.ppm"));
 }
 
 TEST_CASE("Pyramid obj file parser test", "[fileParsers][pixelBuffer]") {
-  ReadObjToPixelBuffer(getDirectory() + "objFiles/pyramid.obj");
-  REQUIRE(compare_files(getDirectory() + "sln/pyramid.ppm", "test.ppm"));
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/pyramid.obj",
+                       "pyramidTest.ppm");
+  REQUIRE(compare_files(getDirectory() + "sln/pyramid.ppm", "pyramidTest.ppm"));
 }

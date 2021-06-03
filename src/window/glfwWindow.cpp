@@ -105,7 +105,13 @@ void GLWindow::windowResized(int width, int height) {
                                    i + height / mLayout.Cols, width, height),
             Rectangle::toCartesian(j, i + height / mLayout.Cols, width,
                                    height));
-        mRectangles[rectIndex]->getPixelBuffer()->resizeBuffer(width, height);
+
+        // TODO: decide on window resize behavior
+        // Option 1: clear buffer on resize and rerun path tracer simulation
+        // Option 2: don't resize buffer only window and let the texture resize
+        // currently doing option 2 commented out pixel buffer resize
+        // mRectangles[rectIndex]->getPixelBuffer()->resizeBuffer(width,
+        // height);
       }
     }
   }
@@ -249,6 +255,7 @@ void GLWindow::init() {
   this->pGlfwWindow = glfwWindowInit(mTitle, width(), height());
   Singleton::get().insertNewWindow(this);
   keyCallbackInit(this->pGlfwWindow, this->keyCallBacks);
+  resizeCallbackInit(this->pGlfwWindow);
   glInit();
 
 #ifdef DEBUG
@@ -259,7 +266,7 @@ void GLWindow::init() {
   mRectangles.push_back(std::make_unique<Rectangle>(width(), height()));
 }
 
-PixelBuffer *GLWindow::getPixelBuffer() {
+std::shared_ptr<PixelBuffer> GLWindow::getPixelBuffer() {
   return mRectangles[0]->getPixelBuffer();
 }
 
