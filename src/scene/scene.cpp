@@ -16,6 +16,10 @@ void Scene::addTriangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2,
   mTriangleList.push_back(Triangle(p0, p1, p2, color, mTriangleList.size()));
 }
 
+void Scene::addLight(glm::vec3 direction) {
+  mLightList.push_back(Light(direction));
+}
+
 Hit Scene::getRayIntersection(const Ray &ray) {
   Hit hit;
 
@@ -25,6 +29,12 @@ Hit Scene::getRayIntersection(const Ray &ray) {
       hit = curHit;
     }
   }
-
+  glm::vec3 color{0, 0, 0};
+  for (const Light &light : mLightList) {
+    color += light.GetColor(mTriangleList[hit.getTriId()]);
+  }
+  if(mLightList.size() > 0) {
+    hit.setColor(color);
+  }
   return hit;
 }
