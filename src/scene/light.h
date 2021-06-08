@@ -14,11 +14,12 @@
 class Light {
 private:
   glm::vec3 mDirection;
+
 public:
   Light(glm::vec3 direction);
   float Intensity(const Triangle &triangle) const;
-  glm::vec3 Direction() const { return mDirection;}
-  glm::vec3 GetColor(const Triangle &triangle) const; 
+  glm::vec3 Direction() const { return mDirection; }
+  glm::vec3 GetColor(const Triangle &triangle) const;
 };
 
 #endif // __LIGHT_H__

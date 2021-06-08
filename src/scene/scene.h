@@ -10,9 +10,9 @@
 #include <glm/glm.hpp>
 #include <vector>
 
+#include "light.h"
 #include "raycast/camera.h"
 #include "triangle.h"
-#include "light.h"
 
 class Scene {
 private:

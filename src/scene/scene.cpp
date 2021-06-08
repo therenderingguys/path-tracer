@@ -33,7 +33,7 @@ Hit Scene::getRayIntersection(const Ray &ray) {
   for (const Light &light : mLightList) {
     color += light.GetColor(mTriangleList[hit.getTriId()]);
   }
-  if(mLightList.size() > 0) {
+  if (mLightList.size() > 0) {
     hit.setColor(color);
   }
   return hit;
