@@ -25,6 +25,7 @@ int main(int argc, char *argv[]) {
   Scene scene(cam);
 
   glm::vec3 gray(0.31, 0.31, 0.31);
+  scene.addLight(camDir);
   for (int i = 0; i < model.nfaces(); i++) {
     std::vector<int> face = model.face(i);
     if (face.size() == 3) {

@@ -117,7 +117,8 @@ glm::vec3 getColor(int index) {
 }
 
 void ReadObjToPixelBuffer(std::string filename,
-                          std::string outFileName = "test.ppm") {
+                          std::string outFileName = "test.ppm",
+                          bool setLight = false) {
   Model model(filename.c_str());
 
   glm::vec3 camOrign({0, 0, 2});
@@ -127,14 +128,21 @@ void ReadObjToPixelBuffer(std::string filename,
   cam.setDirection(camDir);
   cam.setFOV(90.0f);
   Scene scene(cam);
-
+  glm::vec3 gray(0.31, 0.31, 0.31);
+  if (setLight) {
+    scene.addLight(camDir);
+  }
   for (int i = 0; i < model.nfaces(); i++) {
     std::vector<int> face = model.face(i);
     if (face.size() == 3) {
       glm::vec3 v1 = model.vert(face[0]);
       glm::vec3 v2 = model.vert(face[1]);
       glm::vec3 v3 = model.vert(face[2]);
-      scene.addTriangle(v1, v2, v3, getColor(i));
+      if (setLight) {
+        scene.addTriangle(v1, v2, v3, gray);
+      } else {
+        scene.addTriangle(v1, v2, v3, getColor(i));
+      }
     }
   }
 
@@ -180,4 +188,23 @@ TEST_CASE("Pyramid obj file parser test", "[fileParsers][pixelBuffer]") {
   ReadObjToPixelBuffer(getDirectory() + "objFiles/pyramid.obj",
                        "pyramidTest.ppm");
   REQUIRE(compare_files(getDirectory() + "sln/pyramid.ppm", "pyramidTest.ppm"));
+}
+
+TEST_CASE("head obj file parser light test", "[fileParsers][pixelBuffer]") {
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/african_head.obj",
+                       "headLightTest.ppm", true);
+  REQUIRE(
+      compare_files(getDirectory() + "sln/headLight.ppm", "headLightTest.ppm"));
+}
+TEST_CASE("monkey obj file parser light test", "[fileParsers][pixelBuffer]") {
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/monkey.obj",
+                       "monkeyLightTest.ppm", true);
+  REQUIRE(compare_files(getDirectory() + "sln/monkeyLight.ppm",
+                        "monkeyLightTest.ppm"));
+}
+TEST_CASE("diablo obj file parser light test", "[fileParsers][pixelBuffer]") {
+  ReadObjToPixelBuffer(getDirectory() + "objFiles/diablo3_pose.obj",
+                       "diabloLightTest.ppm", true);
+  REQUIRE(compare_files(getDirectory() + "sln/diabloLight.ppm",
+                        "diabloLightTest.ppm"));
 }

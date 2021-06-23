@@ -1,11 +1,13 @@
 set (SourceFiles
      scene.cpp
      triangle.cpp
+     light.cpp
 )
 
 set(HeaderFiles
     scene.h
     triangle.h
+    light.h
 )
 
 add_library (PathTracer.Scene OBJECT

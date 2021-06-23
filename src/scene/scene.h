@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
+#include "light.h"
 #include "raycast/camera.h"
 #include "triangle.h"
 
@@ -17,6 +18,7 @@ class Scene {
 private:
   Camera &mCamera;
   std::vector<Triangle> mTriangleList;
+  std::vector<Light> mLightList;
 
 public:
   Scene(Camera &cam);
@@ -26,6 +28,7 @@ public:
 
   const std::vector<Triangle> &getTriangleList() const { return mTriangleList; }
   void addTriangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color);
+  void addLight(glm::vec3 direction);
 
   Hit getRayIntersection(const Ray &ray);
 };
