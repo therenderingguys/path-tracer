@@ -45,6 +45,26 @@ void PixelBuffer::setPixel(size_t x, size_t y, glm::u8vec4 color) {
   mBuffer[index + 3] = color[3];
 }
 
+void PixelBuffer::setPixel(size_t index, uint8_t color) {
+  assert(mChannel == ColorChannels::BW);
+  mBuffer[index] = color;
+}
+
+void PixelBuffer::setPixel(size_t index, glm::u8vec3 color) {
+  assert(mChannel == ColorChannels::RGB);
+  mBuffer[index] = color[0];
+  mBuffer[index + 1] = color[1];
+  mBuffer[index + 2] = color[2];
+}
+
+void PixelBuffer::setPixel(size_t index, glm::u8vec4 color) {
+  assert(mChannel == ColorChannels::RGBA);
+  mBuffer[index] = color[0];
+  mBuffer[index + 1] = color[1];
+  mBuffer[index + 2] = color[2];
+  mBuffer[index + 3] = color[3];
+}
+
 template <typename T> T PixelBuffer::getPixel(size_t x, size_t y) {
   throw std::runtime_error("not a supported type");
 }

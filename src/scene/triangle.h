@@ -15,12 +15,15 @@
 class Triangle {
 private:
   glm::vec3 mP0, mP1, mP2;
+  glm::vec2 mUV0, mUV1, mUV2;
   glm::vec3 mNormal;
   glm::vec3 mColor;
   const size_t mId;
 
 private:
   Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color,
+           size_t id);
+  Triangle(glm::vec3 (&trianglePnts)[3], glm::vec2 (&textureCooord)[3],
            size_t id);
 
 public:

@@ -7,7 +7,7 @@
 #include <fstream>
 #include <glm/glm.hpp>
 
-#include "fileParsers/imageExporter.h"
+#include "fileParsers/image.h"
 #include "fileParsers/model.h"
 #include "raycast/camera.h"
 #include "renderer/pathTracer.h"

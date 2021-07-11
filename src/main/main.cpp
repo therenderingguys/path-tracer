@@ -26,13 +26,16 @@ int main(int argc, char *argv[]) {
 
   glm::vec3 gray(0.31, 0.31, 0.31);
   scene.addLight(camDir);
-  for (int i = 0; i < model.nfaces(); i++) {
+  for (size_t i = 0; i < model.nfaces(); i++) {
     std::vector<int> face = model.face(i);
     if (face.size() == 3) {
-      glm::vec3 v1 = model.vert(face[0]);
-      glm::vec3 v2 = model.vert(face[1]);
-      glm::vec3 v3 = model.vert(face[2]);
-      scene.addTriangle(v1, v2, v3, gray);
+      glm::vec2 uvTextures[3];
+      glm::vec3 verticies[3];
+      for (size_t k = 0; k < 3; k++) {
+        verticies[k] = model.vert(face[k]);
+        uvTextures[k] = model.uv(face[k], k);
+      }
+      scene.addTriangle(verticies, uvTextures);
     }
   }
 

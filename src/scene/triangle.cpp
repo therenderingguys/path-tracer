@@ -10,6 +10,14 @@ Triangle::Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color,
   this->mNormal = glm::normalize(glm::cross(mP1 - mP0, mP2 - mP0));
 }
 
+Triangle::Triangle(glm::vec3 (&trianglePnts)[3], glm::vec2 (&textureCooord)[3],
+                   size_t id)
+    : mP0(trianglePnts[0]), mP1(trianglePnts[1]), mP2(trianglePnts[2]),
+      mUV0(textureCooord[0]), mUV1(textureCooord[1]), mUV2(textureCooord[2]),
+      mId(id) {
+  this->mNormal = glm::normalize(glm::cross(mP1 - mP0, mP2 - mP0));
+}
+
 Triangle::Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2)
     : Triangle(p0, p1, p2, glm::vec3(0.78, 0.15, 0.7)) {}
 

@@ -48,6 +48,10 @@ public:
   void setPixel(size_t x, size_t y, glm::u8vec3 color);
   void setPixel(size_t x, size_t y, glm::u8vec4 color);
 
+  void setPixel(size_t index, uint8_t color);
+  void setPixel(size_t index, glm::u8vec3 color);
+  void setPixel(size_t index, glm::u8vec4 color);
+
   template <typename T> T getPixel(size_t x, size_t y);
 
   size_t height() const { return mSize.Height; }

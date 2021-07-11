@@ -1,10 +1,10 @@
 set (SourceFiles
-     imageExporter.cpp
+     image.cpp
      model.cpp
 )
 
 set(HeaderFiles
-    imageExporter.h
+    image.h
     model.h
 )
 

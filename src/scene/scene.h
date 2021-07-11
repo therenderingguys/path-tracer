@@ -28,6 +28,7 @@ public:
 
   const std::vector<Triangle> &getTriangleList() const { return mTriangleList; }
   void addTriangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 color);
+  void addTriangle(glm::vec3 (&trianglePnts)[3], glm::vec2 (&textureCooord)[3]);
   void addLight(glm::vec3 direction);
 
   Hit getRayIntersection(const Ray &ray);

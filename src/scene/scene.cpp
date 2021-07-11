@@ -16,6 +16,9 @@ void Scene::addTriangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2,
   mTriangleList.push_back(Triangle(p0, p1, p2, color, mTriangleList.size()));
 }
 
+void Scene::addTriangle(glm::vec3 (&trianglePnts)[3],
+                        glm::vec2 (&textureCooord)[3]) {}
+
 void Scene::addLight(glm::vec3 direction) {
   mLightList.push_back(Light(direction));
 }

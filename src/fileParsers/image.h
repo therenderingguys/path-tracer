@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-#ifndef __IMAGE_EXPORTER_H__
-#define __IMAGE_EXPORTER_H__
+#ifndef __IMAGE_H__
+#define __IMAGE_H__
 
 #include "renderer/pixelBuffer.h"
 
@@ -15,4 +15,12 @@ public:
   static void exportAsPPM(std::string fileName, PixelBuffer *pb);
 };
 
-#endif //__IMAGE_EXPORTER_H__
+class ImageImport {
+private:
+  ImageImport() = delete;
+
+public:
+  static std::unique_ptr<PixelBuffer> importAsPPM(std::string fileName);
+};
+
+#endif //__IMAGE_H__
