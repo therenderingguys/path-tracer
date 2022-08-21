@@ -29,6 +29,6 @@ private:
 
 void printVersion();
 
-} // namespace PathTracer
+} // namespace PathTracerHelper
 
 #endif //__version_h__

@@ -5,18 +5,17 @@
 #include "fileParsers/model.h"
 #include "renderer/pathTracer.h"
 #include "scene/scene.h"
+#include "version/version.h"
 #include "window/glfwWindow.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "version/version.h"
 
 int main(int argc, char *argv[]) {
   const std::string versionFlag("-v");
   const std::string versionFlagLong("--version");
 
   for (int i = 1; i < argc; i++) {
-    if (versionFlag == argv[i] ||
-        versionFlagLong == argv[i]) {
+    if (versionFlag == argv[i] || versionFlagLong == argv[i]) {
       PathTracerHelper::printVersion();
       exit(0);
     }

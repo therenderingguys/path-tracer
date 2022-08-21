@@ -6,11 +6,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 // clang-format on
+#include "glfwWindow.h"
+#include "singleton.h"
 #include <cassert>
 #include <iostream>
 #include <unordered_map>
-#include "singleton.h"
-#include "glfwWindow.h"
 
 ShaderProperties::ShaderProperties()
     : uiTextureSampler(0), uiTextureHandle(0), uiPositionHandle(0) {}
