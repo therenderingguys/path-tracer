@@ -1,0 +1,14 @@
+{
+    "Catch2" : {
+        "Src": "209cbb2f8f37224cc5f7261cf9388bc2"
+    },
+    "glad" : {
+        "Src" : "262e8984dbde2f359207ffa8e609aa50"
+    },
+    "glfw3" : {
+        "Src": "f794d9ad899a64894782884be79d644b"
+    },
+    "glm" : {
+        "Src" : "69895110052f0d711c9c54fbf385f6f5"
+    }
+}

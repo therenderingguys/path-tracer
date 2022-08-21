@@ -1,5 +1,4 @@
 project(PathTracer)
-cmake_minimum_required(VERSION 3.10)
 
 #Look up OpenGL
 find_package(OpenGL REQUIRED)
@@ -58,6 +57,7 @@ add_library (${PROJECT_NAME} STATIC
   $<TARGET_OBJECTS:PathTracer.Renderer>
   $<TARGET_OBJECTS:PathTracer.Scene>
   $<TARGET_OBJECTS:PathTracer.Window>
+  $<TARGET_OBJECTS:PathTracer.Version>
 )
 
 set(GL_LIBS OpenGL::GL glfw glad ${EXTRA_LIBS})
@@ -79,3 +79,4 @@ add_subdirectory(raycast)
 add_subdirectory (renderer)
 add_subdirectory(scene)
 add_subdirectory(window)
+add_subdirectory (version)
