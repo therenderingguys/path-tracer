@@ -35,7 +35,7 @@ jobs:
             artifact_staticlib_ext: .lib
             # Note: I wanted to use env.BUILD_TYPE, but it isn't taking
             #artifact_out_dir: ${{ BUILD_TYPE }}/
-            artifact_out_dir: Release/
+            artifact_out_dir: Debug/
             artifact_os_name: Windows
             artifact_arch: x86_64
           - os: macos-latest
@@ -55,9 +55,9 @@ jobs:
       with:
         path: |
           packages
-        key: ${{ runner.OS }}-c++-packages-cache-Release-${{ hashFiles('depsCache.json') }}
+        key: ${{ runner.OS }}-c++-packages-cache-Debug-${{ hashFiles('depsCache.json') }}
         restore-keys: |
-          ${{ runner.OS }}-c++-packages-cache-Release-
+          ${{ runner.OS }}-c++-packages-cache-Debug-
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable
@@ -102,7 +102,7 @@ jobs:
       shell: bash
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ./test/Release/${{ env.APPNAME }}_TEST.exe
+      run: ./test/Debug/${{ env.APPNAME }}_TEST.exe
     
     - name: Linux Code Coverage
       if: matrix.os == 'ubuntu-latest'
