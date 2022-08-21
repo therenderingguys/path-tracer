@@ -96,13 +96,13 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ./test/${{ env.APPNAME }}_TEST
 
-    - name: Test Windows
-      if: matrix.os == 'windows-latest'
-      working-directory: ${{github.workspace}}/build
-      shell: bash
-      # Execute tests defined by the CMake configuration.  
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ./test/Debug/${{ env.APPNAME }}_TEST.exe
+    #- name: Test Windows
+    #  if: matrix.os == 'windows-latest'
+    #  working-directory: ${{github.workspace}}/build
+    #  shell: bash
+    #  # Execute tests defined by the CMake configuration.  
+    #  # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+    #  run: ./test/Debug/${{ env.APPNAME }}_TEST.exe
     
     - name: Linux Code Coverage
       if: matrix.os == 'ubuntu-latest'
