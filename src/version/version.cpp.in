@@ -1,0 +1,23 @@
+/*
+ * Copyright (c) 2021 Farzon Lotfi All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+ 
+#include "version.h"
+#include <iostream>
+
+const std::string PathTracerHelper::Version::number = "@PATHTRACER_VERSION@";
+const std::string PathTracerHelper::Version::name   = "@PATHTRACER_NAME@";
+
+const std::string PathTracerHelper::Git::sha1 = "@GIT_SHA1@";
+const std::string PathTracerHelper::Git::date = "@GIT_DATE@";
+const std::string PathTracerHelper::Git::subject = "@GIT_COMMIT_SUBJECT@";
+const std::string PathTracerHelper::Git::branch = "@GIT_COMMIT_BRANCH@";
+
+
+void PathTracerHelper::printVersion() {
+  std::cout << PathTracerHelper::Version::name << " version " << PathTracerHelper::Version::number
+            << "-" << PathTracerHelper::Git::branch << " commit " << PathTracerHelper::Git::sha1
+            << std::endl;
+}
